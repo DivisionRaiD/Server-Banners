@@ -5,9 +5,6 @@
 //
 // Description: Core code/setup code for the banners.
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>
-// Version: 1.0
-// Credit:
-//      -PHP.net as a helpful resource
 //
 //------------------------------------------------------------------------------------------------------------+
 

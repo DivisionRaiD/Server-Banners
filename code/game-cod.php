@@ -5,9 +5,6 @@
 //
 // Description: Code to parse COD servers (Quake3 based)
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>
-// Version: 1.0
-// Credit:
-//      -PHP.net as a helpful resource
 //
 //------------------------------------------------------------------------------------------------------------+
 
