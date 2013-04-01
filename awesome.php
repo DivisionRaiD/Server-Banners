@@ -8,6 +8,8 @@
 //              from: http://momo.blackpulse.us/banner/
 //
 // Note: Formerly named banner.php, but it got recognized as ad. 
+//       Renamed to awesome.php uppon Storm's request.
+//
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>
 // Version: 5.3
 // License: Check the readme.md
