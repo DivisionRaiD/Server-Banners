@@ -2,6 +2,16 @@ Name:	Server Banners
 
 Description: Server banner images for COD2, MW1/2/3, WAW, GTA-SAMP and soon also Minecraft. Click http://momo5504.square7.de/banner.html to generate a banner.
 
+Info: You modified my code, feel free to request a pull :D
+
+Credit:
+	PHP.net as a helpful resource
+	PixelDemon/alexdahlem for his amazing gdlib tut
+	BlooDONE for his background watermark
+	aG`Avail for the online generator (http://momo5504.square7.de/banner.html)
+	icedream for the api
+	Richard Perry for some LGSL images and his commenting system^^
+
 License:
 	Copyright (C) 2013 momo5502 <MauriceHeumann@googlemail.com>
 
