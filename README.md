@@ -1,8 +1,12 @@
-Name:	Server Banners
+Server Banners
 
-Description: Server banner images for COD2, MW1/2/3, WAW, GTA-SAMP and soon also Minecraft. Click http://momo5504.square7.de/banner.html to generate a banner.
+Description: 
 
-Info: You modified my code, feel free to request a pull :D
+	Server banner images for COD2, MW1/2/3, WAW, GTA-SAMP and soon also Minecraft. Click http://momo5504.square7.de/banner.html to generate a banner.
+
+Info: 
+
+	You modified my code, feel free to request a pull :D
 
 Credit:
 
