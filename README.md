@@ -1,6 +1,6 @@
 Name:	Server Banners
 
-Description: Server banner images for COD2, MW1/2/3, WAW and GTA-SAMP
+Description: Server banner images for COD2, MW1/2/3, WAW, GTA-SAMP and soon also Minecraft
 
 License:
 	Copyright (C) 2013 momo5502 <MauriceHeumann@googlemail.com>
