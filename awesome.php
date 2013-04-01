@@ -27,10 +27,10 @@ if ( $_GET[ 'debug' ] != "1" )
     header( "Content-Type: image/png" );
 
 
-$root = "images/"; //Folder where to get the images
-$font = "fonts/font.ttf"; //Folder where to get the font
+$root = "images/"; 			//Folder where to get the images
+$font = "fonts/font.ttf";	//Folder where to get the font
 
-banner( $root, $font );
+banner();
 
 //------------------------------------------------------------------------------------------------------------+
 ?>

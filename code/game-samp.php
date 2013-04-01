@@ -1,7 +1,7 @@
 <?
 //------------------------------------------------------------------------------------------------------------+
 //
-// Name: game-cod.php
+// Name: game-samp.php
 //
 // Description: Code to parse GTA SAMP servers
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>

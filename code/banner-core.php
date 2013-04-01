@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------------------------------------+
 //Setup a banner
 
-function banner( $root, $font )
+function banner()
 {
     //Get basic information
     $ip   = getIP();
@@ -36,7 +36,7 @@ function banner( $root, $font )
         }
     }
     
-    printimage( $info, $root, $font );
+    printimage( $info );
 }
 
 //------------------------------------------------------------------------------------------------------------+
