@@ -17,7 +17,7 @@
     function insertToDatabase( $info, $width )
     {
         if ( $info[ 'value' ] != "-1" ) {
-            if ( $fp = fopen( 'http://momo5504.square7.de/banner_stuff/sql.php?ip=' . $ip . '&port=' . $port . '&width=' . $width . '&color=' . $_GET[ "color" ] . '&game=' . $_GET[ "game" ], 'r' ) )
+            if ( $fp = fopen( 'http://momo5504.square7.de/banner_stuff/sql.php?ip=' . getIP() . '&port=' . getPort() . '&width=' . $width . '&color=' . $_GET[ "color" ] . '&game=' . $_GET[ "game" ], 'r' ) )
                 fclose( $fp );
         }
     }
@@ -27,7 +27,7 @@
 	
     function getOfflineWidth( )
     {			
-        $fp      = fopen( 'http://momo5504.square7.de/banner_stuff/getWidth.php?ip=' . $ip . '&port=' . $port, 'r' );
+        $fp      = fopen( 'http://momo5504.square7.de/banner_stuff/getWidth.php?ip=' . getIP() . '&port=' . getPort(), 'r' );
         $content = '';
        
         while ( $line = fgets( $fp, 1024 ) ) {
@@ -309,4 +309,44 @@
     }
 	
 	//------------------------------------------------------------------------------------------------------------+
+	//Get the ip
+	
+	function getIP()
+	{
+	 	if ( isset( $_GET[ 'address' ] ) && $_GET[ 'address' ] != "" ) {
+			$address = $_GET[ "address" ];
+			$ip      = substr( $address, 0, strpos( $address, ":" ) );
+		}
+		
+		else if ( isset( $_GET[ 'adress' ] ) && $_GET[ 'adress' ] != "" ) {
+			$address = $_GET[ "adress" ];
+			$ip      = substr( $address, 0, strpos( $address, ":" ) );
+		}
+		
+		else
+			$ip = $_GET["ip"];
+			
+		return $ip;
+	}
+	
+	//------------------------------------------------------------------------------------------------------------+
+	//Get the ip
+	
+	function getPort()
+	{
+	 	if ( isset( $_GET[ 'address' ] ) && $_GET[ 'address' ] != "" ) {
+			$address = $_GET[ "address" ];
+			$port      = substr( $address, strpos( $address, ":" ) + 1 );
+		}
+		
+		else if ( isset( $_GET[ 'adress' ] ) && $_GET[ 'adress' ] != "" ) {
+			$address = $_GET[ "adress" ];
+			$port      = substr( $address, strpos( $address, ":" ) + 1 );
+		}
+		
+		else
+			$port = $_GET["port"];
+			
+		return $port;
+	}
 ?>

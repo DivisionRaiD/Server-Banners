@@ -50,7 +50,7 @@
         if ( $data[ 'value' ] == "-1" )
             $mapimage = imagecreatefromjpeg( $root . "maps/no_response.jpg" );
        
-        else if ( check_file( $mappath ) )
+        else if ( thisFileExists( $mappath ) )
             $mapimage = imagecreatefromjpeg( $mappath );
        
         else
@@ -108,7 +108,7 @@
             $cleanname = $data[ 'hostname' ];
            
             //Print the information onto the picture
-            if ( check_file( $gamepath ) ) {
+            if ( thisFileExists( $gamepath ) ) {
                 $gameimage = imagecreatefrompng( $gamepath );
                 imagecopyresampled( $imagecontainer, $gameimage, $image_width - 75, 60, 0, 0, 63, 35, 320, 176 );
             }

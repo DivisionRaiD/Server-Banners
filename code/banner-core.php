@@ -17,20 +17,8 @@
 	function banner( $root, $font )
 	{     
 		//Get basic information
-		global $ip;
-		global $port;
-		
-		if ( isset( $_GET[ 'address' ] ) && $_GET[ 'address' ] != "" ) {
-			$address = $_GET[ "address" ];
-			$ip      = substr( $address, 0, strpos( $address, ":" ) );
-			$port    = substr( $address, strpos( $address, ":" ) + 1 );
-       
-		}
-     
-		else {
-			$ip   = $_GET[ 'ip' ];
-			$port = $_GET[ 'port' ];
-		}
+		$ip   = getIP();
+		$port = getPort();     
      
 		if ( !isSet($_GET[ "game" ]))
 			$info = queryCOD( $ip, $port );
