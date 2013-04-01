@@ -1,4 +1,8 @@
-	Server Banners
+Name:	Server Banners
+
+Description: Server banner images for COD2, MW1/2/3, WAW and GTA-SAMP
+
+License:
 	Copyright (C) 2013 momo5502 <MauriceHeumann@googlemail.com>
 
 	This program is free software: you can redistribute it and/or modify
