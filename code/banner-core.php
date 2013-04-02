@@ -37,7 +37,7 @@ function banner()
                 $info = querySAMP( $ip, $port );
                 break;
 				
-			case "MC":
+            case "MC":
                 $info = queryMC( $ip, $port );
                 break;
             
