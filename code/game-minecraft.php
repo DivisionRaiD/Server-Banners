@@ -15,7 +15,7 @@ function queryMC( $ip, $port )
 {
     $server  = "tcp://" . $ip; //UDP or TCP. Fuck idk!
     $connect = @fsockopen( $server, $port, $errno, $errstr, 2 );
-    $cmd      = "\0xFE\0xFD"; //What's the cmd. Idk :( 
+    $cmd      = "\xFE\xFD\x09\x01\x02\x03\x04"; //What's the cmd. Idk :( 
     if ( !$connect )
         return getErr( $ip, $port );
     
@@ -25,14 +25,19 @@ function queryMC( $ip, $port )
         stream_set_timeout( $connect, 2 );
         $output = fread( $connect, 8192 );
         $info   = stream_get_meta_data( $connect );
-        fclose( $connect );
         if ( $_GET[ 'debug' ] == "1" )
             echo "<big><u>Server response:</u></big><br><br>" . $output . "<br><br><big><u>PNG output:</u></big><br><br>";
         
         if ( !$output || !isset( $output ) || $output == "" || $info[ 'timed_out' ] ) {
                 return getErr( $ip, $port );
         }
-        
+        else
+		{
+			$output = Pack( 'N', $output );
+			fwrite($connect , "\xFE\xFD\x00" . $output . "\x01\x02\x03\x04\x01\x02\x03\x04"); //WTF?
+			$output = fread( $connect, 8192 );
+			fclose( $connect );
+		}
         return parseMCQueryData( $output, $ip, $port );
     }
 }
