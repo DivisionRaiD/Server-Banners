@@ -16,11 +16,6 @@
 
 //------------------------------------------------------------------------------------------------------------+
 
-include( 'code/game-cod.php' );
-include( 'code/game-minecraft.php' );
-include( 'code/game-samp.php' );
-include( 'code/banner-print.php' );
-include( 'code/banner-functions.php' );
 include( 'code/banner-core.php' );
 
 if ( $_GET[ 'debug' ] != "1" )
