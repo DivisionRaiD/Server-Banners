@@ -99,14 +99,7 @@ function getColorfromNumber( $number, $imagecontainer )
 //Get the game version
 
 function getGameEngine( $var )
-{
-    if ( $_GET[ "game" ] == "SAMP" )
-        return "SAMP";
-    
-    else if ( $_GET[ "game" ] == "MC" )
-        return "MC";
-    
-    
+{  
     switch ( $var ) {
         case ( "5" ):
         case ( "6" ):

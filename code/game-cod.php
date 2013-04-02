@@ -92,15 +92,7 @@ function parseQueryData( $input, $ip, $port, $cmd )
     $err    = "-";
     
     if ( $input == "-1" )
-        $data = array(
-             "value" => $input,
-            "gametype" => $err,
-            "protocol" => $err,
-            "clients" => $err,
-            "maxclients" => $err,
-            "mapname" => $err,
-            "server" => $server 
-        );
+        $data = getErr( $ip, $port );
     
     else {
         //New segmentation code

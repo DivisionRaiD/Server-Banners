@@ -36,6 +36,10 @@ function banner()
             case "SAMP":
                 $info = querySAMP( $ip, $port );
                 break;
+				
+			case "MC":
+                $info = queryMC( $ip, $port );
+                break;
             
             default:
                 $info = getErr( $ip, $port );
