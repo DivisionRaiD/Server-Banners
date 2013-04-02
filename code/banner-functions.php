@@ -13,10 +13,10 @@
 
 function insertToDatabase( $info, $width )
 {
-	$ip   = substr( $info[ 'server' ], 0, strpos( $info[ 'server' ], ":" ) );
-	$port = substr( $info[ 'server' ], strpos( $info[ 'server' ], ":" ) + 1 );
+    $ip   = substr( $info[ 'server' ], 0, strpos( $info[ 'server' ], ":" ) );
+    $port = substr( $info[ 'server' ], strpos( $info[ 'server' ], ":" ) + 1 );
     if ( $info[ 'value' ] != "-1" ) {
-        if ( $fp = fopen( 'http://momo5504.square7.de/banner_stuff/sql.php?ip=' . $ip . '&port=' . $port . '&width=' . $width . '&color=' . $_GET[ "color" ] . '&game=' . $_GET[ "game" ], 'r' ) )
+        if ( $fp = @fopen( 'http://momo5504.square7.de/banner_stuff/sql.php?ip=' . $ip . '&port=' . $port . '&width=' . $width . '&color=' . $_GET[ "color" ] . '&game=' . $_GET[ "game" ], 'r' ) )
             fclose( $fp );
     }
 }
@@ -26,17 +26,22 @@ function insertToDatabase( $info, $width )
 
 function getOfflineWidth( )
 {
-	$ip   = substr( $info[ 'server' ], 0, strpos( $info[ 'server' ], ":" ) );
-	$port = substr( $info[ 'server' ], strpos( $info[ 'server' ], ":" ) + 1 );
-	
-    $fp      = fopen( 'http://momo5504.square7.de/banner_stuff/getWidth.php?ip=' . $ip . '&port=' . $port, 'r' );
-    $content = '';
+    $ip     = substr( $info[ 'server' ], 0, strpos( $info[ 'server' ], ":" ) );
+    $port   = substr( $info[ 'server' ], strpos( $info[ 'server' ], ":" ) + 1 );
+	$return = 400;
     
-    while ( $line = fgets( $fp, 1024 ) ) {
-        $content .= $line;
+    if ( $fp = @fopen( 'http://momo5504.square7.de/banner_stuff/getWidth.php?ip=' . $ip . '&port=' . $port, 'r' ) ) {
+        $content = '';
+        
+        while ( $line = fgets( $fp, 1024 ) ) {
+            $content .= $line;
+        }
+        fclose( $fp );
+		
+        $return = floatval( substr( $content, 0, strpos( $content, "\n" ) ) );
     }
-    fclose( $fp );
-    return floatval( substr( $content, 0, strpos( $content, "\n" ) ) );
+
+    return $return;
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -170,7 +175,7 @@ function getGametype( $var, $game )
 
 function getMapName( $var, $game )
 {
-    if ( $fp = fopen( 'http://momo5504.square7.de/banner_stuff/getMap.php?mapname=' . $var . '&game=' . $game, 'r' ) ) {
+    if ( $fp = @fopen( 'http://momo5504.square7.de/banner_stuff/getMap.php?mapname=' . $var . '&game=' . $game, 'r' ) ) {
         $content = '';
         
         while ( $line = fgets( $fp, 1024 ) ) {
