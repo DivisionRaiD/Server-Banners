@@ -33,9 +33,9 @@ function queryMC( $ip, $port )
         }
         else
 		{
-			$output = Pack( 'N', $output );
-			fwrite($connect , "\xFE\xFD\x00" . $output . "\x01\x02\x03\x04\x01\x02\x03\x04"); //WTF?
-			$output = fread( $connect, 8192 );
+		/*	$output = Pack( 'N', $output );
+			fwrite($connect , "\xFE\xFD\x00" . $output . "\x01\x02\x03\x04\x01\x02\x03\x04"); //WTF? 
+			$output = fread( $connect, 8192 ); */
 			fclose( $connect );
 		}
         return parseMCQueryData( $output, $ip, $port );
@@ -48,7 +48,6 @@ function queryMC( $ip, $port )
 
 function parseMCQueryData( $input, $ip, $port )
 {
-	echo $input;
     $server = $ip . ":" . $port;
     $err    = "-";
     
@@ -56,15 +55,18 @@ function parseMCQueryData( $input, $ip, $port )
         $data = getErr( $ip, $port );
     
     else {
-	
-        $maxplayers = "";
-        $mapname = "";
-        $hostname = "";
-        $gametype = "";
-        $protocol = "";
-        
+		$input      = str_replace( "\x00", "", $input );
+		$hostname   = substr( $input, 2, strpos( $input, "\xA7")-1 );
+		$input      = substr( $input, strpos( $input, "\xA7") + 1 );
+		$players    = substr( $input, 0, strpos( $input, "\xA7") );
+        $maxplayers = substr( $input, strpos( $input, "\xA7") + 1);
+        $mapname    = "World";
+        $gametype   = "SMP";
+        $protocol   = "MC";
+        $value      = 1;
+		
         $data = array(
-             "value" => 1,
+            "value" => $value,
             "hostname" => $hostname,
             "gametype" => $gametype,
             "protocol" => $protocol,
