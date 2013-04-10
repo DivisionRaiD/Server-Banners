@@ -53,16 +53,43 @@ function parseMCQueryData( $input, $ip, $port )
         $data = getErr( $ip, $port );
     
     else {
+		
         $input      = str_replace( "\x00", "", $input );
-        $hostname   = substr( $input, 2, strpos( $input, "\xA7" ) - 1 );
-        $input      = substr( $input, strpos( $input, "\xA7" ) + 1 );
+		$count      = substr_count ( $input, "\xA7");
+		$test       = $input;
+		
+		for($i=0;$i<$count - 1;$i++)
+		{
+			$test   = substr( $test, strpos( $test, "\xA7" ) + 1 );
+		}
+		
+		//$input      = explode( "\xA7", $input);
+        $hostname   = substr( $input, 2, strpos( $input, $test ) - 2 );
+		$unclean    = $hostname;
+        $input      = substr( $input, strpos( $input, $test ) );
         $players    = substr( $input, 0, strpos( $input, "\xA7" ) );
         $maxplayers = substr( $input, strpos( $input, "\xA7" ) + 1 );
         $mapname    = "World";
         $gametype   = "SMP";
         $protocol   = "MC";
         $value      = 1;
-        
+		//$count      = substr_count ( $hostname, "\xA7");
+		
+		for ( $i = 0; $i < count($hostname); $i++ )
+		{
+		/*
+			$pos = strpos($hostname, "\xA7");
+            $hostname = str_replace( $hostname[ $pos ] . $hostname[ $pos + 1 ] . "", "", $hostname );
+			*/
+			
+			if($hostname[$i] == "\xA7")
+			{
+				$hostname = str_replace( "\xA7", "", $hostname );
+			}
+		}
+		
+		$hostname = str_replace( $hostname[ $i ] . $hostname[ $i + 1 ], "", $hostname );
+		$hostname = $unclean;
         $data = array(
              "value" => $value,
             "hostname" => $hostname,
@@ -72,10 +99,10 @@ function parseMCQueryData( $input, $ip, $port )
             "maxclients" => $maxplayers,
             "mapname" => $mapname,
             "server" => $server,
-            "unclean" => $hostname 
+            "unclean" => $unclean 
         );
     }
-    
+    //print_r($data);
     return $data;
 }
 //------------------------------------------------------------------------------------------------------------+
