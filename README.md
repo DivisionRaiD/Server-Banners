@@ -7,7 +7,7 @@ Description:
 
 Info: 
 
-	You modified my code, feel free to request a pull :D
+	You modified my code? Feel free to request a pull :D
 
 Credit:
 
