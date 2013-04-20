@@ -17,9 +17,9 @@ include( 'banner-functions.php' );
 
 function printimage( $data )
 {
-	global $root, $font;
-	
-	$fontpath   = $font;
+    global $root, $font;
+    
+    $fontpath   = $font;
     $font_size  = 13;
     $char_width = 9.5;
     
@@ -38,13 +38,13 @@ function printimage( $data )
     
     insertToDatabase( $data, $image_width );
     
-    $image_height = 100;
+    $image_height   = 100;
     $imagecontainer = imagecreatetruecolor( $image_width, $image_height );
     
     imagesavealpha( $imagecontainer, true );
     
-    $game = getGameEngine( $data[ 'protocol' ] );
-    $map = getMapName( $data[ 'mapname' ], $game );
+    $game     = getGameEngine( $data[ 'protocol' ] );
+    $map      = getMapName( $data[ 'mapname' ], $game );
     $gametype = getGametype( $data[ 'gametype' ], $game );
     
     $mappath = $root . "maps/" . $game . "/preview_" . $data[ 'mapname' ] . ".jpg";
@@ -87,8 +87,8 @@ function printimage( $data )
     
     //Some colors
     $white = Imagecolorallocate( $imagecontainer, 255, 255, 255 );
-    $gray = Imagecolorallocate( $imagecontainer, 127, 127, 127 );
-    $red = Imagecolorallocate( $imagecontainer, 255, 0, 0 );
+    $gray  = Imagecolorallocate( $imagecontainer, 127, 127, 127 );
+    $red   = Imagecolorallocate( $imagecontainer, 255, 0, 0 );
     
     //Add preview to the container
     imagecopyresampled( $imagecontainer, $mapimage, 15, 15, 0, 0, 123, 70, imagesx( $mapimage ), imagesy( $mapimage ) );
@@ -106,7 +106,7 @@ function printimage( $data )
     
     //Print this if it is!
     else {
-        $gamepath = $root . "engine/" . $game . ".PNG";
+        $gamepath  = $root . "engine/" . $game . ".PNG";
         $cleanname = $data[ 'hostname' ];
         
         //Print the information onto the picture
@@ -117,9 +117,9 @@ function printimage( $data )
         
         //Colored hostname
         $length = 150;
-        $color = $white;
+        $color  = $white;
         $maxlen = strlen( $data[ 'unclean' ] );
-        $dots = false;
+        $dots   = false;
         
         if ( $_GET[ 'width' ] != "" && isset( $_GET[ 'width' ] ) && ( 167 + strlen( $data[ 'hostname' ] ) * $char_width ) > $_GET[ 'width' ] ) {
             $dots = true;
@@ -139,8 +139,8 @@ function printimage( $data )
                     $i++;
                 }
             }
-			
-			else if ( $data[ 'unclean' ][ $i ] == "&" && ( isSet( $_GET[ "game" ] ) && $_GET[ "game" ] == "MC"  ) ) {
+            
+            else if ( $data[ 'unclean' ][ $i ] == "&" && ( isSet( $_GET[ "game" ] ) && $_GET[ "game" ] == "MC" ) ) {
                 $tempcolor = getMCColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer, $color );
                 if ( $tempcolor == "-1" ) {
                     imagettftext( $imagecontainer, $font_size, 0, $length, 30, $color, $fontpath, $data[ 'unclean' ][ $i ] );
@@ -169,7 +169,7 @@ function printimage( $data )
     
     //Render the final picture
     imagepng( $imagecontainer );
-	//imagejpeg( $imagecontainer );
+    //imagejpeg( $imagecontainer );
     imagedestroy( $imagecontainer );
 }
 

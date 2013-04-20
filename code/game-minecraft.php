@@ -37,19 +37,18 @@ function queryMC( $ip, $port )
         
         if ( !$maxplayers = $Info[ 'MaxPlayers' ] )
             $maxplayers = "-";
-		
-		
-		if($players == "-")
-		{
-			$newplayers = $Query->GetPlayers( );
-			
-			if(count($newplayers))
-				$players = count($newplayers);
-		}
+        
+        
+        if ( $players == "-" ) {
+            $newplayers = $Query->GetPlayers();
+            
+            if ( count( $newplayers ) )
+                $players = count( $newplayers );
+        }
         
         $data = array(
              "value" => "1",
-            "hostname" => cleanHostname($hostname),
+            "hostname" => cleanHostname( $hostname ),
             "gametype" => $gametype,
             "protocol" => "MC",
             "clients" => $players,
@@ -63,13 +62,12 @@ function queryMC( $ip, $port )
     catch ( MinecraftQueryException $e ) {
         $data = getErr( $ip, $port );
     }
-	
-	if ( $_GET[ 'debug' ] == "1" )
-	{
+    
+    if ( $_GET[ 'debug' ] == "1" ) {
         echo "<big><u>Server response:</u></big><br><br>";
-		print_r($data);
-		echo "<br><br><big><u>PNG output:</u></big><br><br>";
-	}
+        print_r( $data );
+        echo "<br><br><big><u>PNG output:</u></big><br><br>";
+    }
     
     return $data;
 }
@@ -172,28 +170,28 @@ function parseMCQueryData( $input, $ip, $port )
 //------------------------------------------------------------------------------------------------------------+
 //Clean hostname from color codes
 
-function cleanHostname($name)
+function cleanHostname( $name )
 {
-	$hostname = $name;
-	for ( $i = 0; $i < 10; $i++ )
-            $hostname = str_replace( "&{$i}", "", $hostname );
-			
-	$hostname = str_replace( "&a", "", $hostname );
-	$hostname = str_replace( "&b", "", $hostname );
-	$hostname = str_replace( "&c", "", $hostname );
-	$hostname = str_replace( "&d", "", $hostname );
-	$hostname = str_replace( "&e", "", $hostname );
-	$hostname = str_replace( "&f", "", $hostname );
-	
-	$hostname = str_replace( "&k", "", $hostname );
-	$hostname = str_replace( "&l", "", $hostname );
-	$hostname = str_replace( "&m", "", $hostname );
-	$hostname = str_replace( "&n", "", $hostname );
-	$hostname = str_replace( "&o", "", $hostname );
-	
-	$hostname = str_replace( "&r", "", $hostname );
-	
-	return $hostname;
+    $hostname = $name;
+    for ( $i = 0; $i < 10; $i++ )
+        $hostname = str_replace( "&{$i}", "", $hostname );
+    
+    $hostname = str_replace( "&a", "", $hostname );
+    $hostname = str_replace( "&b", "", $hostname );
+    $hostname = str_replace( "&c", "", $hostname );
+    $hostname = str_replace( "&d", "", $hostname );
+    $hostname = str_replace( "&e", "", $hostname );
+    $hostname = str_replace( "&f", "", $hostname );
+    
+    $hostname = str_replace( "&k", "", $hostname );
+    $hostname = str_replace( "&l", "", $hostname );
+    $hostname = str_replace( "&m", "", $hostname );
+    $hostname = str_replace( "&n", "", $hostname );
+    $hostname = str_replace( "&o", "", $hostname );
+    
+    $hostname = str_replace( "&r", "", $hostname );
+    
+    return $hostname;
 }
 
 //------------------------------------------------------------------------------------------------------------+

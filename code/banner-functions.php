@@ -28,7 +28,7 @@ function getOfflineWidth( )
 {
     $ip     = substr( $info[ 'server' ], 0, strpos( $info[ 'server' ], ":" ) );
     $port   = substr( $info[ 'server' ], strpos( $info[ 'server' ], ":" ) + 1 );
-	$return = 400;
+    $return = 400;
     
     if ( $fp = @fopen( 'http://momo5504.square7.de/banner_stuff/getWidth.php?ip=' . $ip . '&port=' . $port, 'r' ) ) {
         $content = '';
@@ -37,10 +37,10 @@ function getOfflineWidth( )
             $content .= $line;
         }
         fclose( $fp );
-		
+        
         $return = floatval( substr( $content, 0, strpos( $content, "\n" ) ) );
     }
-
+    
     return $return;
 }
 
@@ -140,40 +140,40 @@ function getMCColor( $char, $imagecontainer, $lastcolor )
         case ( "9" ):
             return Imagecolorallocate( $imagecontainer, 63, 63, 254 );
             break;
-			
-		case ( "d" ):
+        
+        case ( "d" ):
             return Imagecolorallocate( $imagecontainer, 254, 63, 254 );
             break;
-			
-		case ( "5" ):
+        
+        case ( "5" ):
             return Imagecolorallocate( $imagecontainer, 190, 0, 190 );
             break;
-			
-		case ( "f" ):
+        
+        case ( "f" ):
             return Imagecolorallocate( $imagecontainer, 255, 255, 255 );
             break;
-			
-		case ( "7" ):
+        
+        case ( "7" ):
             return Imagecolorallocate( $imagecontainer, 190, 190, 190 );
             break;
-			
-		case ( "8" ):
+        
+        case ( "8" ):
             return Imagecolorallocate( $imagecontainer, 63, 63, 63 );
             break;
-			
-		case ( "0" ):
+        
+        case ( "0" ):
             return Imagecolorallocate( $imagecontainer, 0, 0, 0 );
             break;
-			
-		case ( "k" ):
-		case ( "l" ):
-		case ( "m" ):
-		case ( "n" ):
-		case ( "o" ):
-		case ( "r" ):
+        
+        case ( "k" ):
+        case ( "l" ):
+        case ( "m" ):
+        case ( "n" ):
+        case ( "o" ):
+        case ( "r" ):
             return $lastcolor;
             break;
-
+        
         default:
             return "-1";
     }
@@ -183,7 +183,7 @@ function getMCColor( $char, $imagecontainer, $lastcolor )
 //Get the game version
 
 function getGameEngine( $var )
-{  
+{
     switch ( $var ) {
         case ( "5" ):
         case ( "6" ):
