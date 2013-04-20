@@ -9,9 +9,78 @@
 //------------------------------------------------------------------------------------------------------------+
 
 //------------------------------------------------------------------------------------------------------------+
+
+include( 'xPaw/MinecraftQuery.class.php' );
+
+//------------------------------------------------------------------------------------------------------------+
 //Query minecraft servers
 
 function queryMC( $ip, $port )
+{
+	$Query = new MinecraftQuery( );
+
+	try
+	{
+		$Query->Connect( $ip, $port, 1 );
+		$Info = $Query->GetInfo( );
+
+		$hostname = $Info['HostName'];
+		if(!$hostname)
+		{
+			$hostname = "-";
+		}
+		
+		$unclean = $hostname;
+		
+		$gametype = $Info['GameType'];
+		if(!$gametype)
+		{
+			$gametype = "-";
+		}
+		
+		$mapname = $Info['Map'];
+		if(!$mapname)
+		{
+			$mapname = "-";
+		}
+		
+		$players = $Info['Players'];
+		if(!$players)
+		{
+			$players = "-";
+		}
+		
+		$maxplayers = $Info['MaxPlayers'];
+		if(!$maxplayers)
+		{
+			$maxplayers = "-";
+		}
+		
+		$data = array(
+			"value" => "1",
+			"hostname" => $hostname,
+			"gametype" => $gametype,
+			"protocol" => "MC",
+			"clients" => $players,
+			"maxclients" => $maxplayers,
+			"mapname" => $mapname,
+			"server" => $ip . ":" . $port,
+			"unclean" => $unclean 
+        );
+	}
+	
+	catch( MinecraftQueryException $e )
+	{
+		return getErr( $ip, $port );
+	}
+		
+	return $data;
+}
+
+//------------------------------------------------------------------------------------------------------------+
+//Query minecraft servers
+
+function queryMCold( $ip, $port )
 {
     $server  = "tcp://" . $ip; //UDP or TCP. Fuck idk!
     $connect = @fsockopen( $server, $port, $errno, $errstr, 2 );
