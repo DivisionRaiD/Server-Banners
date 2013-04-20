@@ -139,6 +139,19 @@ function printimage( $data )
                     $i++;
                 }
             }
+			
+			else if ( $data[ 'unclean' ][ $i ] == "&" && ( isSet( $_GET[ "game" ] ) && $_GET[ "game" ] == "MC"  ) ) {
+                $tempcolor = getMCColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer, $color );
+                if ( $tempcolor == "-1" ) {
+                    imagettftext( $imagecontainer, $font_size, 0, $length, 30, $color, $fontpath, $data[ 'unclean' ][ $i ] );
+                    $length += $char_width;
+                }
+                
+                else {
+                    $color = $tempcolor;
+                    $i++;
+                }
+            }
             
             else {
                 imagettftext( $imagecontainer, $font_size, 0, $length, 30, $color, $fontpath, $data[ 'unclean' ][ $i ] );

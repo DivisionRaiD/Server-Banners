@@ -96,6 +96,90 @@ function getColorfromNumber( $number, $imagecontainer )
 }
 
 //------------------------------------------------------------------------------------------------------------+
+//Returns colors based on chars. Used for MC servers. Could also be placed in game_minecraft.php!
+
+function getMCColor( $char, $imagecontainer, $lastcolor )
+{
+    switch ( $char ) {
+        case ( "4" ):
+            return Imagecolorallocate( $imagecontainer, 190, 0, 0 );
+            break;
+        
+        case ( "c" ):
+            return Imagecolorallocate( $imagecontainer, 254, 63, 63 );
+            break;
+        
+        case ( "6" ):
+            return Imagecolorallocate( $imagecontainer, 217, 163, 52 );
+            break;
+        
+        case ( "e" ):
+            return Imagecolorallocate( $imagecontainer, 254, 254, 63 );
+            break;
+        
+        case ( "2" ):
+            return Imagecolorallocate( $imagecontainer, 0, 190, 0 );
+            break;
+        
+        case ( "a" ):
+            return Imagecolorallocate( $imagecontainer, 63, 254, 63 );
+            break;
+        
+        case ( "b" ):
+            return Imagecolorallocate( $imagecontainer, 63, 254, 254 );
+            break;
+        
+        case ( "3" ):
+            return Imagecolorallocate( $imagecontainer, 0, 190, 190 );
+            break;
+        
+        case ( "1" ):
+            return Imagecolorallocate( $imagecontainer, 0, 0, 190 );
+            break;
+        
+        case ( "9" ):
+            return Imagecolorallocate( $imagecontainer, 63, 63, 254 );
+            break;
+			
+		case ( "d" ):
+            return Imagecolorallocate( $imagecontainer, 254, 63, 254 );
+            break;
+			
+		case ( "5" ):
+            return Imagecolorallocate( $imagecontainer, 190, 0, 190 );
+            break;
+			
+		case ( "f" ):
+            return Imagecolorallocate( $imagecontainer, 255, 255, 255 );
+            break;
+			
+		case ( "7" ):
+            return Imagecolorallocate( $imagecontainer, 190, 190, 190 );
+            break;
+			
+		case ( "8" ):
+            return Imagecolorallocate( $imagecontainer, 63, 63, 63 );
+            break;
+			
+		case ( "0" ):
+            return Imagecolorallocate( $imagecontainer, 0, 0, 0 );
+            break;
+			
+		case ( "k" ):
+		case ( "l" ):
+		case ( "m" ):
+		case ( "n" ):
+		case ( "o" ):
+		case ( "r" ):
+            return $lastcolor;
+            break;
+
+        default:
+            return "-1";
+    }
+}
+
+//------------------------------------------------------------------------------------------------------------+
 //Get the game version
 
 function getGameEngine( $var )
