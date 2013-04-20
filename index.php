@@ -8,7 +8,7 @@
 //              from: http://momo.blackpulse.us/banner/
 //
 // Note: Formerly named banner.php, but it got recognized as ad. 
-//       Renamed to awesome.php uppon Storm's request.
+//       Renamed to index.php uppon Storm's request.
 //
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>
 //
