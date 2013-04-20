@@ -17,6 +17,7 @@ Credit:
 	Icedream for the api
 	Richard Perry for some LGSL images and his commenting system^^
 	xPaw for his minecraft query class
+	The Dark Arts for his help throughout coding it. (Especially MC colors.)
 
 License:
 	Copyright (C) 2013 momo5502 <MauriceHeumann@googlemail.com>
