@@ -20,6 +20,7 @@ include( 'code/banner-core.php' );
 
 if ( $_GET[ 'debug' ] != "1" )
     header( "Content-Type: image/png" );
+	//header( "Content-Type: image/jpeg" );
 
 
 $root = "images/"; 			//Folder where to get the images

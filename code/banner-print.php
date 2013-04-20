@@ -156,6 +156,7 @@ function printimage( $data )
     
     //Render the final picture
     imagepng( $imagecontainer );
+	//imagejpeg( $imagecontainer );
     imagedestroy( $imagecontainer );
 }
 
