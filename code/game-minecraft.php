@@ -17,64 +17,45 @@ include( 'xPaw/MinecraftQuery.class.php' );
 
 function queryMC( $ip, $port )
 {
-	$Query = new MinecraftQuery( );
-
-	try
-	{
-		$Query->Connect( $ip, $port, 1 );
-		$Info = $Query->GetInfo( );
-
-		$hostname = $Info['HostName'];
-		if(!$hostname)
-		{
-			$hostname = "-";
-		}
-		
-		$unclean = $hostname;
-		
-		$gametype = $Info['GameType'];
-		if(!$gametype)
-		{
-			$gametype = "-";
-		}
-		
-		$mapname = $Info['Map'];
-		if(!$mapname)
-		{
-			$mapname = "-";
-		}
-		
-		$players = $Info['Players'];
-		if(!$players)
-		{
-			$players = "-";
-		}
-		
-		$maxplayers = $Info['MaxPlayers'];
-		if(!$maxplayers)
-		{
-			$maxplayers = "-";
-		}
-		
-		$data = array(
-			"value" => "1",
-			"hostname" => $hostname,
-			"gametype" => $gametype,
-			"protocol" => "MC",
-			"clients" => $players,
-			"maxclients" => $maxplayers,
-			"mapname" => $mapname,
-			"server" => $ip . ":" . $port,
-			"unclean" => $unclean 
+    $Query = new MinecraftQuery();
+    
+    try {
+        $Query->Connect( $ip, $port, 1 );
+        $Info = $Query->GetInfo();
+        
+        if ( !$hostname = $Info[ 'HostName' ] )
+            $hostname = "-";
+        
+        if ( !$gametype = $Info[ 'GameType' ] )
+            $gametype = "-";
+        
+        if ( !$mapname = $Info[ 'Map' ] )
+            $mapname = "-";
+        
+        if ( !$players = $Info[ 'Players' ] )
+            $players = "-";
+        
+        if ( !$maxplayers = $Info[ 'MaxPlayers' ] )
+            $maxplayers = "-";
+        
+        $data = array(
+             "value" => "1",
+            "hostname" => $hostname,
+            "gametype" => $gametype,
+            "protocol" => "MC",
+            "clients" => $players,
+            "maxclients" => $maxplayers,
+            "mapname" => $mapname,
+            "server" => $ip . ":" . $port,
+            "unclean" => $hostname 
         );
-	}
-	
-	catch( MinecraftQueryException $e )
-	{
-		return getErr( $ip, $port );
-	}
-		
-	return $data;
+    }
+    
+    catch ( MinecraftQueryException $e ) {
+        return getErr( $ip, $port );
+    }
+    
+    return $data;
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -122,19 +103,18 @@ function parseMCQueryData( $input, $ip, $port )
         $data = getErr( $ip, $port );
     
     else {
-		
-        $input      = str_replace( "\x00", "", $input );
-		$count      = substr_count ( $input, "\xA7");
-		$test       = $input;
-		
-		for($i=0;$i<$count - 1;$i++)
-		{
-			$test   = substr( $test, strpos( $test, "\xA7" ) + 1 );
-		}
-		
-		//$input      = explode( "\xA7", $input);
+        
+        $input = str_replace( "\x00", "", $input );
+        $count = substr_count( $input, "\xA7" );
+        $test  = $input;
+        
+        for ( $i = 0; $i < $count - 1; $i++ ) {
+            $test = substr( $test, strpos( $test, "\xA7" ) + 1 );
+        }
+        
+        //$input      = explode( "\xA7", $input);
         $hostname   = substr( $input, 2, strpos( $input, $test ) - 2 );
-		$unclean    = $hostname;
+        $unclean    = $hostname;
         $input      = substr( $input, strpos( $input, $test ) );
         $players    = substr( $input, 0, strpos( $input, "\xA7" ) );
         $maxplayers = substr( $input, strpos( $input, "\xA7" ) + 1 );
@@ -142,24 +122,22 @@ function parseMCQueryData( $input, $ip, $port )
         $gametype   = "SMP";
         $protocol   = "MC";
         $value      = 1;
-		//$count      = substr_count ( $hostname, "\xA7");
-		
-		for ( $i = 0; $i < count($hostname); $i++ )
-		{
-		/*
-			$pos = strpos($hostname, "\xA7");
+        //$count      = substr_count ( $hostname, "\xA7");
+        
+        for ( $i = 0; $i < count( $hostname ); $i++ ) {
+            /*
+            $pos = strpos($hostname, "\xA7");
             $hostname = str_replace( $hostname[ $pos ] . $hostname[ $pos + 1 ] . "", "", $hostname );
-			*/
-			
-			if($hostname[$i] == "\xA7")
-			{
-				$hostname = str_replace( "\xA7", "", $hostname );
-			}
-		}
-		
-		$hostname = str_replace( $hostname[ $i ] . $hostname[ $i + 1 ], "", $hostname );
-		$hostname = $unclean;
-        $data = array(
+            */
+            
+            if ( $hostname[ $i ] == "\xA7" ) {
+                $hostname = str_replace( "\xA7", "", $hostname );
+            }
+        }
+        
+        $hostname = str_replace( $hostname[ $i ] . $hostname[ $i + 1 ], "", $hostname );
+        $hostname = $unclean;
+        $data     = array(
              "value" => $value,
             "hostname" => $hostname,
             "gametype" => $gametype,

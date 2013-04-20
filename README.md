@@ -17,6 +17,7 @@ Credit:
 	aG`Avail for the online generator (http://momo5504.square7.de/banner.html)
 	icedream for the api
 	Richard Perry for some LGSL images and his commenting system^^
+	xPaw for his minecraft query class
 
 License:
 	Copyright (C) 2013 momo5502 <MauriceHeumann@googlemail.com>
