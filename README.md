@@ -11,12 +11,12 @@ Info:
 
 Credit:
 
-	[PHP.net](http://php.net) as a helpful resource
-	[PixelDemon (alexdahlem)](https://www.youtube.com/user/PixelDemon) for his amazing gdlib tut
-	[Avail](http://fourdeltaone.net/forum/memberlist.php?mode=viewprofile&u=1234) for the online generator (http://momo5504.square7.de/banner.html)
-	[Icedream](http://fourdeltaone.net/forum/memberlist.php?mode=viewprofile&u=5819) for the api
-	[Richard Perry](http://www.greycube.com) for some LGSL images and his commenting system^^
-	[xPaw](https://github.com/xPaw) for his minecraft query class
+	PHP.net as a helpful resource
+	PixelDemon (alexdahlem) for his amazing gdlib tut
+	Avail for the online generator (http://momo5504.square7.de/banner.html)
+	Icedream for the api
+	Richard Perry for some LGSL images and his commenting system^^
+	xPaw for his minecraft query class
 
 License:
 	Copyright (C) 2013 momo5502 <MauriceHeumann@googlemail.com>
