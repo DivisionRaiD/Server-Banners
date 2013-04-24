@@ -13,12 +13,56 @@
 
 function insertToDatabase( $info, $width )
 {
+	if($_GET['testDB'] == "1")
+	{
+		saveDataInDB($info, $width);
+		return;
+	}
+	
     $ip   = substr( $info[ 'server' ], 0, strpos( $info[ 'server' ], ":" ) );
     $port = substr( $info[ 'server' ], strpos( $info[ 'server' ], ":" ) + 1 );
     if ( $info[ 'value' ] != "-1" ) {
         if ( $fp = @fopen( 'http://momo5504.square7.de/banner_stuff/sql.php?ip=' . $ip . '&port=' . $port . '&width=' . $width . '&color=' . $_GET[ "color" ] . '&game=' . $_GET[ "game" ], 'r' ) )
             fclose( $fp );
     }
+}
+
+//------------------------------------------------------------------------------------------------------------+
+//Insert server information into my database.
+
+function saveDataInDB($array, $width)
+{
+	$url = "http://momo5504.square7.de/banner_stuff/insert_sql.php";
+	$data = $array;
+	
+	$ip   = substr( $info[ 'server' ], 0, strpos( $info[ 'server' ], ":" ) );
+    $port = substr( $info[ 'server' ], strpos( $info[ 'server' ], ":" ) + 1 );
+	
+	$data['ip']    = $ip;
+	$data['port']  = $port;
+	$data['width'] = $width;
+	$data['color'] = $_GET[ "color" ];
+	
+	foreach ($data as $key => $value)
+	{
+		$data[$key] = urlencode($value);
+	}
+
+	foreach($data as $key=>$value) { $data_string .= $key.'='.$value.'&'; }
+	rtrim($data_string, '&');
+
+	$ch = curl_init();
+
+	curl_setopt($ch,CURLOPT_URL, $url);
+	curl_setopt($ch,CURLOPT_POST, count($data));
+	curl_setopt($ch,CURLOPT_POSTFIELDS, $data_string);
+
+	$result = curl_exec($ch);
+	
+	if($_GET['debug'] == "1")
+		echo $result;
+		
+	curl_close($ch);
 }
 
 //------------------------------------------------------------------------------------------------------------+
