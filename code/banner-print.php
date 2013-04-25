@@ -128,7 +128,7 @@ function printimage( $data )
         
         for ( $i = 0; $i <= $maxlen; $i++ ) {
             if ( $data[ 'unclean' ][ $i ] == "^" && ( $_GET[ "game" ] == "COD" || !isSet( $_GET[ "game" ] ) ) ) {
-                $tempcolor = getColorfromNumber( $data[ 'unclean' ][ $i + 1 ], $imagecontainer );
+                $tempcolor = getCODColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer );
                 if ( $tempcolor == "-1" ) {
                     imagettftext( $imagecontainer, $font_size, 0, $length, 30, $color, $fontpath, $data[ 'unclean' ][ $i ] );
                     $length += $char_width;

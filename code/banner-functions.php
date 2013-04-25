@@ -92,7 +92,7 @@ function getOfflineWidth( )
 //------------------------------------------------------------------------------------------------------------+
 //Returns colors based on numbers. Used for COD servers. Could also be placed in game_cod.php!
 
-function getColorfromNumber( $number, $imagecontainer )
+function getCODColor( $number, $imagecontainer )
 {
     switch ( $number ) {
         case ( "0" ):
@@ -136,7 +136,11 @@ function getColorfromNumber( $number, $imagecontainer )
             break;
 
         case ( ";" ):
-            return Imagecolorallocate( $imagecontainer, 141, 141, 141 );
+            return Imagecolorallocate( $imagecontainer, 90, 90, 255 );
+            break;
+			
+		case ( ":" ):
+            return Imagecolorallocate( $imagecontainer, 237, 181, 85 );
             break;
         
         default:
