@@ -140,7 +140,7 @@ function getCODColor( $number, $imagecontainer )
             break;
 			
 		case ( ":" ):
-            return Imagecolorallocate( $imagecontainer, 237, 181, 85 );
+            return Imagecolorallocate( $imagecontainer, 193, 159, 86 );
             break;
         
         default:
