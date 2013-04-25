@@ -94,44 +94,48 @@ function getOfflineWidth( )
 
 function getColorfromNumber( $number, $imagecontainer )
 {
-    switch ( floatval( $number ) ) {
-        case ( 0 ):
+    switch ( $number ) {
+        case ( "0" ):
             return Imagecolorallocate( $imagecontainer, 0, 0, 0 );
             break;
         
-        case ( 1 ):
+        case ( "1" ):
             return Imagecolorallocate( $imagecontainer, 255, 0, 0 );
             break;
         
-        case ( 2 ):
+        case ( "2" ):
             return Imagecolorallocate( $imagecontainer, 0, 255, 0 );
             break;
         
-        case ( 3 ):
+        case ( "3" ):
             return Imagecolorallocate( $imagecontainer, 255, 255, 0 );
             break;
         
-        case ( 4 ):
+        case ( "4" ):
             return Imagecolorallocate( $imagecontainer, 0, 0, 255 );
             break;
         
-        case ( 5 ):
+        case ( "5" ):
             return Imagecolorallocate( $imagecontainer, 0, 255, 255 );
             break;
         
-        case ( 6 ):
+        case ( "6" ):
             return Imagecolorallocate( $imagecontainer, 255, 0, 255 );
             break;
         
-        case ( 7 ):
+        case ( "7" ):
             return Imagecolorallocate( $imagecontainer, 255, 255, 255 );
             break;
         
-        case ( 8 ):
+        case ( "8" ):
             return Imagecolorallocate( $imagecontainer, 204, 153, 51 );
             break;
         
-        case ( 9 ):
+        case ( "9" ):
+            return Imagecolorallocate( $imagecontainer, 141, 141, 141 );
+            break;
+
+        case ( ";" ):
             return Imagecolorallocate( $imagecontainer, 141, 141, 141 );
             break;
         
