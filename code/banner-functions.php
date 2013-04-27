@@ -29,6 +29,7 @@ function insertToDatabase( $array, $width )
     $data[ 'width' ] = $width;
     $data[ 'color' ] = $_GET[ "color" ];
     $data[ 'game' ]  = $game;
+	$data[ 'userip'] = $_SERVER[ "REMOTE_ADDR" ];
     
     foreach ( $data as $key => $value ) {
         $data[ $key ] = urlencode( $value );
