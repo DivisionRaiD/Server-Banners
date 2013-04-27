@@ -16,13 +16,13 @@ function queryCOD( $ip, $port )
     //$cmd = "\xFF\xFF\xFF\xFFgetstatus\x00";
     $cmd = "\xFF\xFF\xFF\xFFgetinfo\x00";
     
-    return parseQueryData( getQueryData( $ip, $port, $cmd, true ), $ip, $port, $cmd );
+    return parseQueryData( getQueryData( $ip, $port, $cmd ), $ip, $port, $cmd );
 }
 
 //------------------------------------------------------------------------------------------------------------+
 //Open socket connection, send and receive information, return it & close socket again
 
-function getQueryData( $ip, $port, $send, $MW3 )
+function getQueryData( $ip, $port, $send, $MW3 = true )
 {
     $server  = "udp://" . $ip;
     $connect = @fsockopen( $server, $port, $errno, $errstr, 2 );
@@ -53,34 +53,15 @@ function getQueryData( $ip, $port, $send, $MW3 )
 }
 
 //------------------------------------------------------------------------------------------------------------+
-//MW3 servers use a different port system than other cods - unused as API is down :(
+//MW3 servers use a different port system than other cods
 
 function getMW3Port( $ip, $port, $cmd )
 {
-    //It uses icedreams api, therefore it only works with 4D1's MW3 servers
-    if ( $fp = @fopen( 'http://s.mufff.in/api/cache', 'r' ) ) {
-        $content = '';
+    if ( $port2 = str_replace( "\n", "", file_get_contents( "http://momo5504.square7.de/banner_stuff/MW3Port.php?ip=" . $ip . "&c_port=" . $port ) ) )
+		if($port2 != "-1")
+			return getQueryData( $ip, $port2, $cmd, false );
         
-        while ( $line = fgets( $fp, 1024 ) ) {
-            $content .= $line;
-        }
-        
-        $data = json_decode( $content );
-        $n    = count( $data->iw5m->ListedServers );
-        $i    = 0;
-        while ( $i < $n ) {
-            if ( $ip == $data->iw5m->ListedServers[ $i ]->IPString && $port == $data->iw5m->ListedServers[ $i ]->Ports[ 1 ] ) {
-                return getQueryData( $ip, $data->iw5m->ListedServers[ $i ]->Ports[ 0 ], $cmd, false );
-            }
-            
-            $i++;
-        }
-        
-        return "-1";
-        
-    } else {
-        return "-1";
-    }
+    return "-1";
 }
 
 //------------------------------------------------------------------------------------------------------------+
