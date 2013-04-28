@@ -39,10 +39,10 @@ function printimage( $data )
     $mappath = $root . "maps/" . $game . "/preview_" . $data[ 'mapname' ] . ".jpg";
     
     $bg_data = getBGInfo( $imagecontainer, $data, $mappath, $mapimage );
-	
-	imagefill( $imagecontainer, 0, 0, $bg_data[0] );
+    
+    imagefill( $imagecontainer, 0, 0, $bg_data[ 0 ] );
     imagelayereffect( $imagecontainer, IMG_EFFECT_OVERLAY );
-    imagecopyresampled( $imagecontainer, $bg_data[1], 0, 0, 0, 0, $image_width, $image_height, 100, 100 );
+    imagecopyresampled( $imagecontainer, $bg_data[ 1 ], 0, 0, 0, 0, $image_width, $image_height, 100, 100 );
     imagelayereffect( $imagecontainer, IMG_EFFECT_NORMAL );
     
     //Add preview to the container
@@ -69,16 +69,16 @@ function printimage( $data )
             imagecopyresampled( $imagecontainer, $gameimage, $image_width - 75, 60, 0, 0, 63, 35, 320, 176 );
         }
         
-		$length = 150;
+        $length = 150;
         $color  = Imagecolorallocate( $imagecontainer, 255, 255, 255 );
         $maxlen = strlen( $data[ 'unclean' ] );
         $dots   = false;
-		$isCOD  = ( $_GET[ "game" ] == "COD" || !isSet( $_GET[ "game" ] ) ) ? true : false;
-		$isMC   = ( isSet( $_GET[ "game" ] ) && $_GET[ "game" ] == "MC" ) ? true : false;
-		
-		if ( $_GET[ 'width' ] != "" && isset( $_GET[ 'width' ] ) && ( 167 + strlen( $data[ 'hostname' ] ) * $char_width ) > $_GET[ 'width' ] ) {
+        $isCOD  = ( $_GET[ "game" ] == "COD" || !isSet( $_GET[ "game" ] ) ) ? true : false;
+        $isMC   = ( isSet( $_GET[ "game" ] ) && $_GET[ "game" ] == "MC" ) ? true : false;
+        
+        if ( $_GET[ 'width' ] != "" && isset( $_GET[ 'width' ] ) && ( 167 + strlen( $data[ 'hostname' ] ) * $char_width ) > $_GET[ 'width' ] ) {
             $dots = true;
-            $maxlen -= round( ( ( 195 + strlen( $data[ 'hostname' ] )  * $char_width ) - intval( $_GET[ 'width' ] ) ) / $char_width, 0 ) + 3;
+            $maxlen -= round( ( ( 195 + strlen( $data[ 'hostname' ] ) * $char_width ) - intval( $_GET[ 'width' ] ) ) / $char_width, 0 ) + 3;
         }
         
         for ( $i = 0; $i <= $maxlen; $i++ ) {
@@ -116,7 +116,7 @@ function printimage( $data )
         
         if ( $dots )
             imagettftext( $imagecontainer, $font_size, 0, $length, 30, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $fontpath, "..." );
-		
+        
     }
     
     $mapshadow = imagecreatefrompng( $root . "maps/shadow.png" );
@@ -134,7 +134,7 @@ function printimage( $data )
 
 function setImageWidth( &$image_width, $data, $char_width )
 {
-	if ( isset( $_GET[ 'width' ] ) && $_GET[ 'width' ] != "" && $_GET[ 'width' ] != "no" )
+    if ( isset( $_GET[ 'width' ] ) && $_GET[ 'width' ] != "" && $_GET[ 'width' ] != "no" )
         $image_width = $_GET[ 'width' ];
     else {
         if ( $data[ 'value' ] == "-1" )
@@ -153,9 +153,9 @@ function setImageWidth( &$image_width, $data, $char_width )
 
 function getBGInfo( &$imagecontainer, $data, $mappath, &$mapimage )
 {
-	global $root;
-	
-	if ( $data[ 'value' ] == "-1" )
+    global $root;
+    
+    if ( $data[ 'value' ] == "-1" )
         $mapimage = imagecreatefromjpeg( $root . "maps/no_response.jpg" );
     
     else if ( thisFileExists( $mappath ) )
@@ -182,8 +182,11 @@ function getBGInfo( &$imagecontainer, $data, $mappath, &$mapimage )
     }
     
     $bg = imagecreatefrompng( $root . "bg.png" );
-	
-	return array( 0 => $bgcolor, 1 => $bg );
+    
+    return array(
+         0 => $bgcolor,
+        1 => $bg 
+    );
 }
 
 ?>
