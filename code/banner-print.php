@@ -123,10 +123,14 @@ function printimage( $data )
     imagecopyresampled( $imagecontainer, $mapshadow, 15, 15, 0, 0, 126, 73, 334, 194 );
     imagettftext( $imagecontainer, 10, 0, 150, 47, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $fontpath, "IP: {$data[ 'server' ]}\nMap: {$map}\nGametype: " . strtoupper( $gametype ) . "\nPlayers: {$data[ 'clients' ]}/{$data[ 'maxclients' ]}" );
     
-    //Render the final picture
-    imagepng( $imagecontainer );
-    //imagejpeg( $imagecontainer );
-    imagedestroy( $imagecontainer );
+	if( $_GET[ 'debug' ] != "1" )
+	{
+		//Render the final picture
+		imagepng( $imagecontainer );
+	}
+	
+	//imagejpeg( $imagecontainer );
+	imagedestroy( $imagecontainer );
 }
 
 //------------------------------------------------------------------------------------------------------------+
