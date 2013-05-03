@@ -13,7 +13,7 @@
 
 function insertToDatabase( $array, $width )
 {
-    $url         = "http://momo5504.square7.de/banner_stuff/insert_sql.php";
+    $url         = "http://momo.blackpulse.us/banner_stuff/insert_sql.php";
     $data        = $array;
     $data_string = "";
     
@@ -30,7 +30,7 @@ function insertToDatabase( $array, $width )
     $data[ 'color' ]  = $_GET[ "color" ];
     $data[ 'game' ]   = $game;
     $data[ 'userip' ] = $_SERVER[ "REMOTE_ADDR" ];
-	$data[ 'userc' ]  = geoip_country_code_by_name( $_SERVER[ "REMOTE_ADDR" ] );
+	//$data[ 'userc' ]  = geoip_country_code_by_name( $_SERVER[ "REMOTE_ADDR" ] );
     
     foreach ( $data as $key => $value ) {
         $data[ $key ] = urlencode( $value );
@@ -62,7 +62,7 @@ function getOfflineWidth( )
     $port   = substr( $info[ 'server' ], strpos( $info[ 'server' ], ":" ) + 1 );
     $return = 400;
     
-    if ( $fp = @fopen( 'http://momo5504.square7.de/banner_stuff/getWidth.php?ip=' . $ip . '&port=' . $port, 'r' ) ) {
+    if ( $fp = @fopen( 'http://momo.blackpulse.us/banner_stuff/getWidth.php?ip=' . $ip . '&port=' . $port, 'r' ) ) {
         $content = '';
         
         while ( $line = fgets( $fp, 1024 ) ) {
@@ -256,10 +256,11 @@ function getGameEngine( $var )
 }
 
 //------------------------------------------------------------------------------------------------------------+
-//Returns country code from ip
+//Returns country code from ip - disabled
 
 function geoip_country_code_by_name( $hostname )
 {
+	return "-";
 	return str_replace( "\n", "", file_get_contents( "http://api.hostip.info/country.php?ip=" . $hostname ) );
 }
 
@@ -300,7 +301,7 @@ function getGametype( $var, $game )
 
 function getMapName( $var, $game )
 {
-    if ( $fp = @fopen( 'http://momo5504.square7.de/banner_stuff/getMap.php?mapname=' . $var . '&game=' . $game, 'r' ) ) {
+    if ( $fp = @fopen( 'http://momo.blackpulse.us/banner_stuff/getMap.php?mapname=' . $var . '&game=' . $game, 'r' ) ) {
         $content = '';
         
         while ( $line = fgets( $fp, 1024 ) ) {
