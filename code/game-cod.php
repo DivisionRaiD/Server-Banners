@@ -57,7 +57,7 @@ function getQueryData( $ip, $port, $send, $MW3 = true )
 
 function getMW3Port( $ip, $port, $cmd )
 {
-    if ( $port2 = @str_replace( "\n", "", @file_get_contents( "http://momo.blackpulse.us/banner_stuff/getMW3.php?ip=" . $ip . "&c_port=" . $port ) ) )
+    if ( $port2 = str_replace( "\n", "", file_get_contents( "http://momo5504.square7.de/banner_stuff/MW3Port.php?ip=" . $ip . "&c_port=" . $port ) ) )
 		if($port2 != "-1")
 			return getQueryData( $ip, $port2, $cmd, false );
         
