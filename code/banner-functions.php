@@ -13,7 +13,7 @@
 
 function insertToDatabase( $array, $width )
 {
-    $url         = "http://momo.blackpulse.us/banner_stuff/insert_sql.php";
+    $url         = "http://momo5504.square7.de/banner_stuff/insert_sql.php";
     $data        = $array;
     $data_string = "";
     
@@ -62,7 +62,7 @@ function getOfflineWidth( )
     $port   = substr( $info[ 'server' ], strpos( $info[ 'server' ], ":" ) + 1 );
     $return = 400;
     
-    if ( $fp = @fopen( 'http://momo.blackpulse.us/banner_stuff/getWidth.php?ip=' . $ip . '&port=' . $port, 'r' ) ) {
+    if ( $fp = @fopen( 'http://momo5504.square7.de/banner_stuff/getWidth.php?ip=' . $ip . '&port=' . $port, 'r' ) ) {
         $content = '';
         
         while ( $line = fgets( $fp, 1024 ) ) {
@@ -301,7 +301,7 @@ function getGametype( $var, $game )
 
 function getMapName( $var, $game )
 {
-    if ( $fp = @fopen( 'http://momo.blackpulse.us/banner_stuff/getMap.php?mapname=' . $var . '&game=' . $game, 'r' ) ) {
+    if ( $fp = @fopen( 'http://momo5504.square7.de/banner_stuff/getMap.php?mapname=' . $var . '&game=' . $game, 'r' ) ) {
         $content = '';
         
         while ( $line = fgets( $fp, 1024 ) ) {
