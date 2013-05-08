@@ -13,7 +13,6 @@
 
 function queryCOD( $ip, $port )
 {
-    //$cmd = "\xFF\xFF\xFF\xFFgetstatus\x00";
     $cmd = "\xFF\xFF\xFF\xFFgetinfo\x00";
     
     return parseQueryData( getQueryData( $ip, $port, $cmd ), $ip, $port, $cmd );
@@ -96,7 +95,7 @@ function parseQueryData( $input, $ip, $port, $cmd )
             }
             
             else
-                $players = "-";
+                $players = getMissingPlayers( $ip, $port );
             
             $gametype = substr( $input, strpos( $input, "\\gametype" ) + 10 );
         }
@@ -186,6 +185,42 @@ function getPlayers( $input )
         $tok = strtok( "\"" );
     }
     return $players;
+}
+
+//------------------------------------------------------------------------------------------------------------+
+//Gets the missing players in some cod4 servers
+
+function getMissingPlayers( $ip, $port )
+{
+    $server  = "udp://" . $ip;
+    $connect = @fsockopen( $server, $port, $errno, $errstr, 2 );
+    
+    if ( !$connect )
+        return "-";
+    
+    
+    else {
+        $send = "\xFF\xFF\xFF\xFFgetstatus\x00";
+        fwrite( $connect, $send );
+        stream_set_timeout( $connect, 2 );
+        $output = fread( $connect, 8192 );
+        $info   = stream_get_meta_data( $connect );
+        fclose( $connect );
+        
+        if ( !$output || !isset( $output ) || $output == "" || $info[ 'timed_out' ] )
+            return "-";
+        
+        else {
+            try {
+                $players = count( getPlayers( $output ) );
+                return $players;
+            }
+            
+            catch ( Exception $e ) {
+                return "-";
+            }
+        }
+    }
 }
 
 //------------------------------------------------------------------------------------------------------------+
