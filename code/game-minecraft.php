@@ -173,7 +173,7 @@ function parseMCQueryData( $input, $ip, $port )
 function cleanHostname( $name )
 {
     $hostname = $name;
-	
+    
     for ( $i = 0; $i < 10; $i++ )
         $hostname = str_replace( "&{$i}", "", $hostname );
     

@@ -22,16 +22,16 @@ include( 'code/banner-core.php' );
 
 if ( $_GET[ 'debug' ] != "1" )
     header( "Content-Type: image/png" );
-	//header( "Content-Type: image/jpeg" );
+//header( "Content-Type: image/jpeg" );
 
 
-$root = "images/"; 			//Folder where to get the images
-$font = "fonts/font.ttf";	//Folder where to get the font
+$root = "images/"; //Folder where to get the images
+$font = "fonts/font.ttf"; //Folder where to get the font
 
 banner();
 
-if( $_GET[ 'debug' ] == "1" )
-	echo "\n\n<br><br>Generated in " . Number_Format( ( MicroTime( true ) - $Timer ), 4, '.', '' ) . "s";
+if ( $_GET[ 'debug' ] == "1" )
+    echo "\n\n<br><br>Generated in " . Number_Format( ( MicroTime( true ) - $Timer ), 4, '.', '' ) . "s";
 
 //------------------------------------------------------------------------------------------------------------+
 ?>

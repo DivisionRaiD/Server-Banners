@@ -30,7 +30,7 @@ function banner( )
     else {
         switch ( $_GET[ "game" ] ) {
             case "COD":
-			case "":
+            case "":
             //a popular fps series - 4D1 censor!
             case "a":
             case "a popular FPS series":
