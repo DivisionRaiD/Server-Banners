@@ -88,7 +88,7 @@ function parseQueryData( $input, $ip, $port, $cmd )
             $hostname = substr( $input, strpos( $input, "\\hostname" ) + 10 );
             
             if ( !strpos( $input, "hostname" ) )
-                $hostname = "Unkown Hostname";
+                $hostname = "Unknown Hostname";
             
             if ( strpos( $input, "\\clients" ) ) {
                 $players = substr( $input, strpos( $input, "\\clients" ) + 9 );
