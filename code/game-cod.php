@@ -188,7 +188,7 @@ function getPlayers( $input )
 }
 
 //------------------------------------------------------------------------------------------------------------+
-//Gets the missing players in some cod4 servers
+//Gets the missing players from some cod4 servers
 
 function getMissingPlayers( $ip, $port )
 {
