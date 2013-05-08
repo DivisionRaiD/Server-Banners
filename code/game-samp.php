@@ -44,17 +44,23 @@ function querySAMP( $ip, $port )
             $data = getErr( $ip, $port );
         
         else {
-            $is_passworded = ord( fread( $fp, 1 ) );
-            $plr_count     = ord( fread( $fp, 2 ) );
-            $firstval      = dechex( ord( fread( $fp, 1 ) ) );
-            $maxplayers    = hexdec( dechex( ord( fread( $fp, 1 ) ) ) . $firstval );
-            $max_plrs      = $maxplayers;
-            $strlen        = ord( fread( $fp, 4 ) );
-            $hostname      = fread( $fp, $strlen );
-            $strlen        = ord( fread( $fp, 4 ) );
-            $gamemode      = fread( $fp, $strlen );
-            $strlen        = ord( fread( $fp, 4 ) );
-            $mapname       = fread( $fp, $strlen );
+            try {
+                $is_passworded = ord( fread( $fp, 1 ) );
+                $plr_count     = ord( fread( $fp, 2 ) );
+                $firstval      = dechex( ord( fread( $fp, 1 ) ) );
+                $maxplayers    = hexdec( dechex( ord( fread( $fp, 1 ) ) ) . $firstval );
+                $max_plrs      = $maxplayers;
+                $strlen        = ord( fread( $fp, 4 ) );
+                $hostname      = fread( $fp, $strlen );
+                $strlen        = ord( fread( $fp, 4 ) );
+                $gamemode      = fread( $fp, $strlen );
+                $strlen        = ord( fread( $fp, 4 ) );
+                $mapname       = fread( $fp, $strlen );
+            }
+            
+            catch ( Exception $e ) {
+                return getErr( $ip, $port );
+            }
             
             $data = array(
                  "value" => $output,
