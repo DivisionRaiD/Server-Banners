@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------------------------------------+
 
 //------------------------------------------------------------------------------------------------------------+
-//Open socket connection, send and receive information, return it & close socket again
+//Query COD server - main function!
 
 function queryCOD( $ip, $port )
 {
