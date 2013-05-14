@@ -63,6 +63,12 @@ function queryMC( $ip, $port )
         $data = getErr( $ip, $port );
     }
     
+    if ( $_GET[ 'debug' ] == "1" ) {
+        echo "<big><u>Server response:</u></big><br><br>";
+        print_r( $data );
+        echo "<br><br><big><u>PNG output:</u></big><br><br>";
+    }
+    
     return $data;
 }
 
