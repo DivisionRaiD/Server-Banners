@@ -19,8 +19,8 @@ function printimage( $data )
 {
     global $root, $font, $font2;
     
-    $font_size  = 13;
-    $char_width = 10;
+    $font_size  = 12;
+    $char_width = 9.5;
     
     setImageWidth( $image_width, $data, $char_width );
     
