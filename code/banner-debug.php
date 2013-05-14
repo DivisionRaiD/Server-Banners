@@ -85,7 +85,7 @@ function startBodyCall( )
         echo "<tr><td>{$key}</td><td>{$value}</td></tr>";
     }
     
-    echo "<tr><td>Generation Time</td><td>{$genTime}</td></tr>";
+    echo "<tr><td>Generation Time</td><td>{$genTime}s</td></tr>";
     echo "</tbody></table>";
     echo "</body></html>";
 }
