@@ -14,6 +14,7 @@ include( 'game-cod.php' );
 include( 'game-minecraft.php' );
 include( 'game-samp.php' );
 include( 'banner-print.php' );
+include( 'banner-debug.php' );
 
 //------------------------------------------------------------------------------------------------------------+
 //Setup a banner

@@ -16,13 +16,12 @@
 
 //------------------------------------------------------------------------------------------------------------+
 
-$Timer = MicroTime( true );
-
 include( 'code/banner-core.php' );
 
-if ( $_GET[ 'debug' ] != "1" )
+startDebugLog();
+
+if ( !isToDebug() )
     header( "Content-Type: image/png" );
-//header( "Content-Type: image/jpeg" );
 
 
 $root = "images/"; //Folder where to get the images
@@ -31,8 +30,7 @@ $font2 = "fonts/font2.ttf"; //Font file for the hostname
 
 banner();
 
-if ( $_GET[ 'debug' ] == "1" )
-    echo "\n\n<br><br>Generated in " . Number_Format( ( MicroTime( true ) - $Timer ), 4, '.', '' ) . "s";
+endDebugLog();
 
 //------------------------------------------------------------------------------------------------------------+
 ?>

@@ -36,8 +36,6 @@ function getQueryData( $ip, $port, $send, $MW3 = true )
         $output = fread( $connect, 8192 );
         $info   = stream_get_meta_data( $connect );
         fclose( $connect );
-        if ( $_GET[ 'debug' ] == "1" )
-            echo "<big><u>Server response:</u></big><br><br>" . substr( $output, 4 ) . "<br><br><big><u>PNG output:</u></big><br><br>";
         
         if ( !$output || !isset( $output ) || $output == "" || $info[ 'timed_out' ] ) {
             if ( $MW3 )
@@ -131,8 +129,10 @@ function parseQueryData( $input, $ip, $port, $cmd )
             "maxclients" => $maxplayers,
             "mapname" => $mapname,
             "server" => $server,
-            "unclean" => $unclean 
+            "unclean" => $unclean,
+			"response" => $input
         );
+		
     }
     
     return $data;
