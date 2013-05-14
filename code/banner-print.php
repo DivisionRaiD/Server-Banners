@@ -17,11 +17,10 @@ include( 'banner-functions.php' );
 
 function printimage( $data )
 {
-    global $root, $font;
+    global $root, $font, $font2;
     
-    $fontpath   = $font;
     $font_size  = 13;
-    $char_width = 9.5;
+    $char_width = 10;
     
     setImageWidth( $image_width, $data, $char_width );
     
@@ -52,7 +51,7 @@ function printimage( $data )
     if ( $data[ 'value' ] == "-1" ) {
         $text = "Server is offline!";
         
-        imagettftext( $imagecontainer, $font_size, 0, 150, 30, Imagecolorallocate( $imagecontainer, 255, 0, 0 ), $fontpath, $text );
+        imagettftext( $imagecontainer, $font_size, 0, 150, 30, Imagecolorallocate( $imagecontainer, 255, 0, 0 ), $font2, $text );
         
         //I must add a little watermark :P
         $watermark = imagecreatefrompng( $root . "engine/watermark.png" );
@@ -85,7 +84,7 @@ function printimage( $data )
             if ( $data[ 'unclean' ][ $i ] == "^" && $isCOD ) {
                 $tempcolor = getCODColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer );
                 if ( $tempcolor == "-1" ) {
-                    imagettftext( $imagecontainer, $font_size, 0, $length, 30, $color, $fontpath, $data[ 'unclean' ][ $i ] );
+                    imagettftext( $imagecontainer, $font_size, 0, $length, 30, $color, $font2, $data[ 'unclean' ][ $i ] );
                     $length += $char_width;
                 }
                 
@@ -98,7 +97,7 @@ function printimage( $data )
             else if ( $data[ 'unclean' ][ $i ] == "&" && $isMC ) {
                 $tempcolor = getMCColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer, $color );
                 if ( $tempcolor == "-1" ) {
-                    imagettftext( $imagecontainer, $font_size, 0, $length, 30, $color, $fontpath, $data[ 'unclean' ][ $i ] );
+                    imagettftext( $imagecontainer, $font_size, 0, $length, 30, $color, $font2, $data[ 'unclean' ][ $i ] );
                     $length += $char_width;
                 }
                 
@@ -109,19 +108,19 @@ function printimage( $data )
             }
             
             else {
-                imagettftext( $imagecontainer, $font_size, 0, $length, 30, $color, $fontpath, $data[ 'unclean' ][ $i ] );
+                imagettftext( $imagecontainer, $font_size, 0, $length, 30, $color, $font2, $data[ 'unclean' ][ $i ] );
                 $length += $char_width;
             }
         }
         
         if ( $dots )
-            imagettftext( $imagecontainer, $font_size, 0, $length, 30, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $fontpath, "..." );
+            imagettftext( $imagecontainer, $font_size, 0, $length, 30, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font2, "..." );
         
     }
     
     $mapshadow = imagecreatefrompng( $root . "maps/shadow.png" );
     imagecopyresampled( $imagecontainer, $mapshadow, 15, 15, 0, 0, 126, 73, 334, 194 );
-    imagettftext( $imagecontainer, 10, 0, 150, 47, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $fontpath, "IP: {$data[ 'server' ]}\nMap: {$map}\nGametype: " . strtoupper( $gametype ) . "\nPlayers: {$data[ 'clients' ]}/{$data[ 'maxclients' ]}" );
+    imagettftext( $imagecontainer, 10, 0, 150, 47, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "IP: {$data[ 'server' ]}\nMap: {$map}\nGametype: " . strtoupper( $gametype ) . "\nPlayers: {$data[ 'clients' ]}/{$data[ 'maxclients' ]}" );
     
     if ( $_GET[ 'debug' ] != "1" ) {
         //Render the final picture
