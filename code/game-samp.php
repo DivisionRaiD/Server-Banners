@@ -78,10 +78,6 @@ function querySAMP( $ip, $port )
     if ( $connect )
         fclose( $connect );
     
-    
-    if ( $_GET[ 'debug' ] == "1" )
-        echo "" . print_r( $data ) . "<br><br><big><u>PNG output:</u></big><br><br>";
-    
     return $data;
 }
 
