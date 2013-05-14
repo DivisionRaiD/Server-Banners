@@ -129,8 +129,8 @@ function printimage( $data )
     
     //imagejpeg( $imagecontainer );
     imagedestroy( $imagecontainer );
-	
-	setDebugData( $data );
+    
+    setDebugData( $data );
 }
 
 //------------------------------------------------------------------------------------------------------------+

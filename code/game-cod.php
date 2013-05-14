@@ -130,9 +130,9 @@ function parseQueryData( $input, $ip, $port, $cmd )
             "mapname" => $mapname,
             "server" => $server,
             "unclean" => $unclean,
-			"response" => $input
+            "response" => $input 
         );
-		
+        
     }
     
     return $data;
