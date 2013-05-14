@@ -24,21 +24,19 @@ function insertToDatabase( $array, $width )
     if ( !isSet( $_GET[ "game" ] ) )
         $game = "COD";
     
-    $data[ 'ip' ]     = $ip;
-    $data[ 'port' ]   = $port;
-    $data[ 'width' ]  = $width;
-    $data[ 'color' ]  = $_GET[ "color" ];
-    $data[ 'game' ]   = $game;
-    $data[ 'userip' ] = $_SERVER[ "REMOTE_ADDR" ];
+    $data[ 'ip' ]       = $ip;
+    $data[ 'port' ]     = $port;
+    $data[ 'width' ]    = $width;
+    $data[ 'color' ]    = $_GET[ "color" ];
+    $data[ 'game' ]     = $game;
+    $data[ 'userip' ]   = $_SERVER[ "REMOTE_ADDR" ];
+    $data[ 'response' ] = "-";
     
     foreach ( $data as $key => $value ) {
         $data[ $key ] = urlencode( $value );
     }
     
-    foreach ( $data as $key => $value ) {
-        if( $key == "response" )
-            $value = "-";
-			
+    foreach ( $data as $key => $value ) {		
         $data_string .= $key . '=' . $value . '&';
     }
     
