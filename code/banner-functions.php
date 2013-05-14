@@ -30,13 +30,15 @@ function insertToDatabase( $array, $width )
     $data[ 'color' ]  = $_GET[ "color" ];
     $data[ 'game' ]   = $game;
     $data[ 'userip' ] = $_SERVER[ "REMOTE_ADDR" ];
-    //$data[ 'userc' ]  = geoip_country_code_by_name( $_SERVER[ "REMOTE_ADDR" ] );
     
     foreach ( $data as $key => $value ) {
         $data[ $key ] = urlencode( $value );
     }
     
     foreach ( $data as $key => $value ) {
+        if( $key == "response" )
+            $value = "-";
+			
         $data_string .= $key . '=' . $value . '&';
     }
     
@@ -253,15 +255,6 @@ function getGameEngine( $var )
             return $var;
             break;
     }
-}
-
-//------------------------------------------------------------------------------------------------------------+
-//Returns country code from ip - disabled
-
-function geoip_country_code_by_name( $hostname )
-{
-    return "-";
-    return str_replace( "\n", "", file_get_contents( "http://api.hostip.info/country.php?ip=" . $hostname ) );
 }
 
 //------------------------------------------------------------------------------------------------------------+
