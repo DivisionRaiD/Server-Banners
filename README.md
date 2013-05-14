@@ -18,6 +18,7 @@ Credit:
 	Richard Perry for some LGSL images and his commenting system^^
 	xPaw for his minecraft query class
 	The Dark Arts for his help throughout the coding. (Especially MC colors.)
+	BlackPulse for hosting all my stuff <3 ( http://blackpulse.us )
 
 License:
 	Copyright (C) 2013 momo5502 <MauriceHeumann@googlemail.com>
