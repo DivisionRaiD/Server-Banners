@@ -63,7 +63,7 @@ function querySAMP( $ip, $port )
             }
             
             $data = array(
-                 "value" => $output,
+                 "value" => 1,
                 "hostname" => $hostname,
                 "gametype" => $gamemode,
                 "protocol" => "SAMP",
