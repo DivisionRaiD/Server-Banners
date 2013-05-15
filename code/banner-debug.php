@@ -67,7 +67,7 @@ function setDebugData( $data )
 
 function startHeaderCall( )
 {
-    echo "<!DOCTYPE html><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Debugging: " . getIP( ) . ":" . getPort( ) ."</title>";
+    echo "<!DOCTYPE html><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Debugging: " . getIP() . ":" . getPort() . "</title>";
     echo "<link rel=\"stylesheet\" href=\"http://momo.blackpulse.us/generator/includes/css/debugStyle.css\" /></head><body>";
     echo "<big><big>Generation errors:</big></big> \n<br>";
 }
@@ -82,9 +82,9 @@ function startBodyCall( )
     echo "<br><br><big><big>Debug Data:</big></big> \n<br><br>";
     echo "<table><tbody>";
     
-    foreach ( $genData as $key => $value ) {
-        echo "<tr><td>{$key}</td><td>{$value}</td></tr>";
-    }
+    if ( isSet( $genData ) )
+        foreach ( $genData as $key => $value )
+            echo "<tr><td>{$key}</td><td>{$value}</td></tr>";
     
     echo "<tr><td>Generation Time</td><td>{$genTime}s</td></tr>";
     echo "</tbody></table>";
