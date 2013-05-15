@@ -39,7 +39,19 @@ function queryBFBC2( $ip, $port )
 	//Clean hostname
 	$tok[2] = substr( $tok[2], 3 );
 	
-	//Clean mapname
+	//Clean mapname and gametype
+	if( strpos( $tok[5], "Levels/" ) ) //Happens on 0x20 separator
+	{
+		$pos  = strpos( $tok[5], "Levels/" );
+		$char = 0;
+		
+		if( $tok[5][$pos-1] == "\x20" ) //0x20 is a acii char
+			$char = 1;
+			
+		$tok[6] = substr( $tok[5], $pos );
+		$tok[5] = substr( $tok[5], 0, $pos - $char );
+	}
+	
 	$tok[6] = strtolower( str_replace( "Levels/", "", $tok[6] ) );
 	$tok[6] = str_replace( "gr", "", $tok[6] );
 	
@@ -64,7 +76,7 @@ function queryBFBC2( $ip, $port )
 
 function setSeparators( $buffer, &$separators )
 {
-	$separator   = array( "\x01", "\x02", "\x04", "\x05", "\x08", "\x0F", "\x13" ); //Maybe there are missing ones!
+	$separator   = array( "\x01", "\x02", "\x04", "\x05", "\x08", "\x0F", "\x13" ); //Maybe there are missing ones! 0x20 is a very bad separator :(
 	
 	for($i = 0;$i < strlen($buffer);$i++)
 	{
