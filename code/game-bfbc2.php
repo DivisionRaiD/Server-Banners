@@ -11,15 +11,33 @@
 //------------------------------------------------------------------------------------------------------------+
 //Query BFBC2 server - main function!
 
-function queryBFBC2( $ip, $port )
+function queryBFBC2( $ip, $port, $alt_port = false )
 {
-    $server  = "tcp://" . $ip;
-    $connect = @fsockopen( $server, $port, $errno, $errstr, 2 );
-    fwrite( $connect, "\x00\x00\x00\x00\x1b\x00\x00\x00\x01\x00\x00\x00\x0a\x00\x00\x00serverInfo\x00" );
-    $buffer = fread( $connect, 4096 );
-    
-    if ( !$buffer )
-        return getErr( $ip, $port );
+    $server  = "tcp://" . $ip;	
+    $connect = @fsockopen( $server, $port, $errno, $errstr, 1 );
+	
+	if ( !$connect )
+	{
+		if(!$alt_port)
+			return queryBFBC2( $ip, 48888, true );
+		
+		else
+			return getErr( $ip, getPort() );
+	}
+		
+    @fwrite( $connect, "\x00\x00\x00\x00\x1b\x00\x00\x00\x01\x00\x00\x00\x0a\x00\x00\x00serverInfo\x00" );
+	stream_set_timeout( $connect, 2 );
+    $buffer = @fread( $connect, 4096 );
+    $info   = stream_get_meta_data( $connect );
+	
+    if ( !$buffer || $info[ 'timed_out' ] )
+	{
+		if(!$alt_port)
+			return queryBFBC2( $ip, 48888, true );
+		
+		else
+			return getErr( $ip, getPort() );
+	}
     
     setSeparators( $buffer, $separators );
     
@@ -111,7 +129,8 @@ function cleanMapname( &$mapname )
             $mapname = substr( $mapname, 0, strlen( $mapname ) - strlen( $ending ) );
     }
     
-    rtrim( $mapname, '_' ); //Lol, smiley^^
+    if( $mapname[ strlen( $mapname ) - 1 ] == "_" )
+		$mapname = substr( $mapname, 0, strlen( $mapname ) - 1 );
 }
 
 //------------------------------------------------------------------------------------------------------------+
