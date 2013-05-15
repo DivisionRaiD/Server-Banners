@@ -36,7 +36,7 @@ function insertToDatabase( $array, $width )
         $data[ $key ] = urlencode( $value );
     }
     
-    foreach ( $data as $key => $value ) {		
+    foreach ( $data as $key => $value ) {
         $data_string .= $key . '=' . $value . '&';
     }
     
@@ -468,6 +468,27 @@ function getPort( )
         $port = $_GET[ "port" ];
     
     return $port;
+}
+
+//------------------------------------------------------------------------------------------------------------+
+//Set game variable for user function call
+
+function setLocalGame( $global, &$local )
+{
+    $local = $global;
+    
+    if ( !isSet( $global ) || $global == "" || $global == "a" || $global == "a popular FPS series" || $global == urlencode( "a popular FPS series" ) ) {
+        $local = "COD";
+    }
+}
+
+//------------------------------------------------------------------------------------------------------------+
+//Verify information returned from user function call
+
+function verifyInformation( &$info )
+{
+    if ( !isSet( $info ) || !$info || $info == null )
+        $info = getErr( getIP(), getPort() );
 }
 
 //------------------------------------------------------------------------------------------------------------+

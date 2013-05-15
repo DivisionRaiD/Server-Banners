@@ -13,31 +13,29 @@
 
 function queryBFBC2( $ip, $port, $alt_port = false )
 {
-    $server  = "tcp://" . $ip;	
+    $server  = "tcp://" . $ip;
     $connect = @fsockopen( $server, $port, $errno, $errstr, 1 );
-	
-	if ( !$connect )
-	{
-		if(!$alt_port)
-			return queryBFBC2( $ip, 48888, true );
-		
-		else
-			return getErr( $ip, getPort() );
-	}
-		
+    
+    if ( !$connect ) {
+        if ( !$alt_port )
+            return queryBFBC2( $ip, 48888, true );
+        
+        else
+            return getErr( $ip, getPort() );
+    }
+    
     @fwrite( $connect, "\x00\x00\x00\x00\x1b\x00\x00\x00\x01\x00\x00\x00\x0a\x00\x00\x00serverInfo\x00" );
-	stream_set_timeout( $connect, 2 );
+    stream_set_timeout( $connect, 2 );
     $buffer = @fread( $connect, 4096 );
     $info   = stream_get_meta_data( $connect );
-	
-    if ( !$buffer || $info[ 'timed_out' ] )
-	{
-		if(!$alt_port)
-			return queryBFBC2( $ip, 48888, true );
-		
-		else
-			return getErr( $ip, getPort() );
-	}
+    
+    if ( !$buffer || $info[ 'timed_out' ] ) {
+        if ( !$alt_port )
+            return queryBFBC2( $ip, 48888, true );
+        
+        else
+            return getErr( $ip, getPort() );
+    }
     
     setSeparators( $buffer, $separators );
     
@@ -57,7 +55,7 @@ function queryBFBC2( $ip, $port, $alt_port = false )
     
     //Clean mapname and gametype
     if ( $pos = strpos( $tok[ 5 ], "Levels/" ) ) //Happens on 0x20 separator
-    {
+        {
         $char = 0;
         
         if ( $tok[ 5 ][ $pos - 1 ] == "\x20" ) //0x20 is an acii char
@@ -103,8 +101,7 @@ function setSeparators( $buffer, &$separators )
     ); //Maybe there are missing ones! 0x20 is a very bad separator :(
     
     for ( $i = 0; $i < strlen( $buffer ); $i++ ) {
-        foreach ( $separator as $sep )
-            {
+        foreach ( $separator as $sep ) {
             if ( $buffer[ $i ] == $sep ) {
                 $separators[ count( $separators ) ] = $i;
             }
@@ -129,8 +126,8 @@ function cleanMapname( &$mapname )
             $mapname = substr( $mapname, 0, strlen( $mapname ) - strlen( $ending ) );
     }
     
-    if( $mapname[ strlen( $mapname ) - 1 ] == "_" )
-		$mapname = substr( $mapname, 0, strlen( $mapname ) - 1 );
+    if ( $mapname[ strlen( $mapname ) - 1 ] == "_" )
+        $mapname = substr( $mapname, 0, strlen( $mapname ) - 1 );
 }
 
 //------------------------------------------------------------------------------------------------------------+

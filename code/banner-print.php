@@ -40,12 +40,11 @@ function printimage( $data )
     $bg_data = getBGInfo( $imagecontainer, $data, $mappath, $mapimage );
     
     imagefill( $imagecontainer, 0, 0, $bg_data[ 0 ] );
-	
-	if(!isSet($_GET['no_grad']))
-	{
-		imagelayereffect( $imagecontainer, IMG_EFFECT_OVERLAY );
-		imagecopyresampled( $imagecontainer, $bg_data[ 1 ], 0, 0, 0, 0, $image_width, $image_height, 100, 100 );
-		imagelayereffect( $imagecontainer, IMG_EFFECT_NORMAL );
+    
+    if ( !isSet( $_GET[ 'no_grad' ] ) ) {
+        imagelayereffect( $imagecontainer, IMG_EFFECT_OVERLAY );
+        imagecopyresampled( $imagecontainer, $bg_data[ 1 ], 0, 0, 0, 0, $image_width, $image_height, 100, 100 );
+        imagelayereffect( $imagecontainer, IMG_EFFECT_NORMAL );
     }
     //Add preview to the container
     imagecopyresampled( $imagecontainer, $mapimage, 15, 15, 0, 0, 123, 70, imagesx( $mapimage ), imagesy( $mapimage ) );

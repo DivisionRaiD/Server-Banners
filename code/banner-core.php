@@ -26,38 +26,11 @@ function banner( )
     $ip   = getIP();
     $port = getPort();
     
-    if ( !isSet( $_GET[ "game" ] ) )
-        $info = queryCOD( $ip, $port );
+    setLocalGame( $_GET[ 'game' ], $game );
     
-    else {
-        switch ( $_GET[ "game" ] ) {
-            case "COD":
-            case "":
-            //a popular fps series - 4D1 censor!
-            case "a":
-            case "a popular FPS series":
-            case urlencode( "a popular FPS series" ): //maybe unncessary?
-                $_GET[ "game" ] = "COD";
-                $info           = queryCOD( $ip, $port );
-                break;
-            
-            case "SAMP":
-                $info = querySAMP( $ip, $port );
-                break;
-            
-            case "MC":
-                $info = queryMC( $ip, $port );
-                break;
-				
-            case "BFBC2":
-                $info = queryBFBC2( $ip, $port );
-                break;
-            
-            default:
-                $info = getErr( $ip, $port );
-                break;
-        }
-    }
+    $info = @call_user_func( "query" . $game, $ip, $port );
+    
+    verifyInformation( $info );
     
     printimage( $info );
 }
