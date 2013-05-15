@@ -67,7 +67,8 @@ function setDebugData( $data )
 
 function startHeaderCall( )
 {
-    echo "<html><head><link rel=\"stylesheet\" href=\"css/debugStyle.css\" /></head><body>";
+    echo "<!DOCTYPE html><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Debugging: " . getIP( ) . ":" . getPort( ) ."</title>";
+    echo "<link rel=\"stylesheet\" href=\"css/debugStyle.css\" /></head><body>";
     echo "<big><big>Generation errors:</big></big> \n<br>";
 }
 
@@ -79,7 +80,7 @@ function startBodyCall( )
     global $genData, $genTime;
     
     echo "<br><br><big><big>Debug Data:</big></big> \n<br><br>";
-    echo "<table border\"1\"><tbody>";
+    echo "<table><tbody>";
     
     foreach ( $genData as $key => $value ) {
         echo "<tr><td>{$key}</td><td>{$value}</td></tr>";
