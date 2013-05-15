@@ -13,6 +13,7 @@
 include( 'game-cod.php' );
 include( 'game-minecraft.php' );
 include( 'game-samp.php' );
+include( 'game-bfbc2.php' );
 include( 'banner-print.php' );
 include( 'banner-debug.php' );
 
@@ -46,6 +47,10 @@ function banner( )
             
             case "MC":
                 $info = queryMC( $ip, $port );
+                break;
+				
+            case "BFBC2":
+                $info = queryBFBC2( $ip, $port );
                 break;
             
             default:
