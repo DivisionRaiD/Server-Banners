@@ -51,7 +51,8 @@ function queryBFBC2( $ip, $port )
     }
     
     $tok[ 6 ] = strtolower( str_replace( "Levels/", "", $tok[ 6 ] ) );
-    $tok[ 6 ] = str_replace( "gr", "", $tok[ 6 ] );
+    
+    cleanMapname( $tok[ 6 ] );
     
     $data = array(
          "value" => 1,
@@ -93,5 +94,27 @@ function setSeparators( $buffer, &$separators )
         }
     }
 }
+
+//------------------------------------------------------------------------------------------------------------+
+//Clean mapname ending
+
+function cleanMapname( &$mapname )
+{
+    $endings = array(
+         "gr",
+        "cq",
+        "sdm",
+        "sr" 
+    );
+    
+    foreach ( $endings as $ending ) {
+        if ( strpos( $mapname, $ending ) == strlen( $mapname ) - strlen( $ending ) )
+            $mapname = substr( $mapname, 0, strlen( $mapname ) - strlen( $ending ) );
+    }
+    
+    rtrim( $mapname, '_' ); //Lol, smiley^^
+}
+
+
 //------------------------------------------------------------------------------------------------------------+
 ?>
