@@ -68,7 +68,7 @@ function setDebugData( $data )
 function startHeaderCall( )
 {
     echo "<!DOCTYPE html><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Debugging: " . getIP( ) . ":" . getPort( ) ."</title>";
-    echo "<link rel=\"stylesheet\" href=\"css/debugStyle.css\" /></head><body>";
+    echo "<link rel=\"stylesheet\" href=\"http://momo.blackpulse.us/generator/includes/css/debugStyle.css\" /></head><body>";
     echo "<big><big>Generation errors:</big></big> \n<br>";
 }
 
