@@ -480,6 +480,8 @@ function setLocalGame( $global, &$local )
     if ( !isSet( $global ) || $global == "" || $global == "a" || $global == "a popular FPS series" || $global == urlencode( "a popular FPS series" ) ) {
         $local = "COD";
     }
+	
+	$_GET[ 'game' ] = $local;
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -489,6 +491,21 @@ function verifyInformation( &$info )
 {
     if ( !isSet( $info ) || !$info || $info == null )
         $info = getErr( getIP(), getPort() );
+		
+	else
+		cleanInformation( $info );
+}
+
+//------------------------------------------------------------------------------------------------------------+
+//Clean information returned from user function call
+
+function cleanInformation( &$info )
+{
+	foreach( $info as $key => $value )
+	{
+		if( $key != "response" )
+			$info[ $key ] = preg_replace( '/[^(\x20-\x7F)]*/', '', $value );
+	}
 }
 
 //------------------------------------------------------------------------------------------------------------+
