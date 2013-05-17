@@ -17,7 +17,7 @@ include( 'banner-functions.php' );
 
 function printimage( $data )
 {
-    global $root, $font, $font2;
+    global $root, $font;
     
     $font_size  = 15;
     
@@ -38,7 +38,7 @@ function printimage( $data )
     
     $bg_data = getBGInfo( $imagecontainer, $data, $mappath, $mapimage );
     
-    imagefill( $imagecontainer, 0, 0, $bg_data[ 0 ] );
+    imagefill( $imagecontainer, 0, 0, $bg_data );
     
     //Add preview to the container
     imagecopyresampled( $imagecontainer, $mapimage, 0, 0, 0, 0, 176, 100, imagesx( $mapimage ), imagesy( $mapimage ) );
@@ -169,8 +169,12 @@ function getBGInfo( &$imagecontainer, $data, $mappath, &$mapimage )
         $mapimage = imagecreatefromjpeg( $root . "maps/no_image.jpg" );
     
     if ( ( !isSet( $_GET[ 'color' ] ) || $_GET[ 'color' ] == "no" ) && $data[ 'value' ] != "-1" )
-        $bgcolor = AllocateAverageColor( $imagecontainer, $mapimage );
-    
+	{
+		if( !thisFileExists( $mappath ) )
+			$bgcolor = ImageColorAllocateFromHex( $imagecontainer, "404040" );
+		else
+			$bgcolor = AllocateAverageColor( $imagecontainer, $mapimage );
+    }
     else {
         $html_color = $_GET[ 'color' ];
         
@@ -180,17 +184,12 @@ function getBGInfo( &$imagecontainer, $data, $mappath, &$mapimage )
             if ( strpos( $html_color, "#" ) )
                 $html_color = substr( $html_color, 1 );
             
-        }
+        }			
         
         $bgcolor = ImageColorAllocateFromHex( $imagecontainer, $html_color );
     }
     
-    $bg = imagecreatefrompng( $root . "bg.png" );
-    
-    return array(
-         0 => $bgcolor,
-        1 => $bg 
-    );
+    return $bgcolor;
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -204,7 +203,7 @@ function getStringWidth( $string, $font, $size )
 	for ($i = 0; $i < $strlen; $i++)
 	{
 		$dimensions = imagettfbbox($size, 0, $font, $string[$i]);
-		$dim += $dimensions[2] + 2;
+		$dim += $dimensions[2] + 3;
 	}
 	
 	return $dim;

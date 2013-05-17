@@ -26,7 +26,6 @@ if ( !isToDebug() )
 
 $root  = "images/"; //Folder where to get the images
 $font  = "fonts/font.ttf"; //Font file for the txt
-$font2 = "fonts/font2.ttf"; //Font file for the hostname
 
 banner();
 
