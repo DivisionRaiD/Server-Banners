@@ -26,7 +26,7 @@ function printimage( $data )
     insertToDatabase( $data, $image_width );
     
     $image_height   = 100;
-    $imagecontainer = imagecreatetruecolor( $image_width, $image_height );
+	$imagecontainer = imagecreatetruecolor( $image_width, $image_height );
     
     imagesavealpha( $imagecontainer, true );
     
@@ -195,15 +195,15 @@ function getBGInfo( &$imagecontainer, $data, $mappath, &$mapimage )
 //------------------------------------------------------------------------------------------------------------+
 //Returns exact width of a stirng - required for non-fixed-width fonts
 
-function getStringWidth( $string, $font, $size )
+function getStringWidth( $string, $font, $size, $angle = 0 )
 {
 	$strlen = strlen($string);
 	$dim = 0;
 	
 	for ($i = 0; $i < $strlen; $i++)
 	{
-		$dimensions = imagettfbbox($size, 0, $font, $string[$i]);
-		$dim += $dimensions[2] + 3;
+		$dimensions = imagettfbbox($size, $angle, $font, $string[$i]);
+		$dim += $dimensions[2] + ( $size / 5 );
 	}
 	
 	return $dim;
