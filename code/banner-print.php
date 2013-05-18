@@ -8,7 +8,9 @@
 //
 //------------------------------------------------------------------------------------------------------------+
 
-if (!defined("BANNER_CALL")) { exit("DIRECT ACCESS NOT ALLOWED"); }
+if ( !defined( "BANNER_CALL" ) ) {
+    exit( "DIRECT ACCESS NOT ALLOWED" );
+}
 
 //------------------------------------------------------------------------------------------------------------+
 
@@ -21,14 +23,14 @@ function printimage( $data )
 {
     global $root, $font;
     
-    $font_size  = 15;
+    $font_size = 15;
     
     setImageWidth( $image_width, $data, $font, $font_size );
     
     insertToDatabase( $data, $image_width );
     
     $image_height   = 100;
-	$imagecontainer = imagecreatetruecolor( $image_width, $image_height );
+    $imagecontainer = imagecreatetruecolor( $image_width, $image_height );
     
     imagesavealpha( $imagecontainer, true );
     
@@ -45,9 +47,9 @@ function printimage( $data )
     //Add preview to the container
     imagecopyresampled( $imagecontainer, $mapimage, 0, 0, 0, 0, 176, 100, imagesx( $mapimage ), imagesy( $mapimage ) );
     
-	$yoffset = 28;
-	$xoffset = 191;
-	
+    $yoffset = 28;
+    $xoffset = 191;
+    
     //Print this if the server is not reachable!
     if ( $data[ 'value' ] == "-1" ) {
         $text = "Server is offline!";
@@ -76,9 +78,9 @@ function printimage( $data )
         $isCOD  = ( $_GET[ "game" ] == "COD" || !isSet( $_GET[ "game" ] ) ) ? true : false;
         $isMC   = ( isSet( $_GET[ "game" ] ) && $_GET[ "game" ] == "MC" ) ? true : false;
         
-        if ( $_GET[ 'width' ] != "" && isset( $_GET[ 'width' ] ) && ( 206 + getStringWidth( $data[ 'hostname' ] , $font, $font_size ) ) > $_GET[ 'width' ] ) {
+        if ( $_GET[ 'width' ] != "" && isset( $_GET[ 'width' ] ) && ( 206 + getStringWidth( $data[ 'hostname' ], $font, $font_size ) ) > $_GET[ 'width' ] ) {
             $dots = true;
-            $maxlen -= round( ( ( 195 + getStringWidth( $data[ 'hostname' ] , $font, $font_size ) ) - intval( $_GET[ 'width' ] ) ) / ( getStringWidth( $data[ 'hostname' ] , $font, $font_size ) / strlen( $data[ 'hostname' ] ) ), 0 ) + 3;
+            $maxlen -= round( ( ( 195 + getStringWidth( $data[ 'hostname' ], $font, $font_size ) ) - intval( $_GET[ 'width' ] ) ) / ( getStringWidth( $data[ 'hostname' ], $font, $font_size ) / strlen( $data[ 'hostname' ] ) ), 0 ) + 3;
         }
         
         for ( $i = 0; $i <= $maxlen; $i++ ) {
@@ -86,7 +88,7 @@ function printimage( $data )
                 $tempcolor = getCODColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer );
                 if ( $tempcolor == "-1" ) {
                     imagettftext( $imagecontainer, $font_size, 0, $length, $yoffset, $color, $font, $data[ 'unclean' ][ $i ] );
-                    $length += getStringWidth( $data[ 'unclean' ][ $i ] , $font, $font_size );
+                    $length += getStringWidth( $data[ 'unclean' ][ $i ], $font, $font_size );
                 }
                 
                 else {
@@ -99,7 +101,7 @@ function printimage( $data )
                 $tempcolor = getMCColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer, $color );
                 if ( $tempcolor == "-1" ) {
                     imagettftext( $imagecontainer, $font_size, 0, $length, $yoffset, $color, $font, $data[ 'unclean' ][ $i ] );
-                    $length += getStringWidth( $data[ 'unclean' ][ $i ] , $font, $font_size );
+                    $length += getStringWidth( $data[ 'unclean' ][ $i ], $font, $font_size );
                 }
                 
                 else {
@@ -110,7 +112,7 @@ function printimage( $data )
             
             else {
                 imagettftext( $imagecontainer, $font_size, 0, $length, $yoffset, $color, $font, $data[ 'unclean' ][ $i ] );
-                $length += getStringWidth( $data[ 'unclean' ][ $i ] , $font, $font_size );
+                $length += getStringWidth( $data[ 'unclean' ][ $i ], $font, $font_size );
             }
         }
         
@@ -120,9 +122,9 @@ function printimage( $data )
     }
     
     imagettftext( $imagecontainer, 12, 0, $xoffset, 45, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "IP: {$data[ 'server' ]}" );
-	imagettftext( $imagecontainer, 12, 0, $xoffset, 60, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "Map: {$map}" );
-	imagettftext( $imagecontainer, 12, 0, $xoffset, 75, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "Gametype: " . strtoupper( $gametype ) );
-	imagettftext( $imagecontainer, 12, 0, $xoffset, 90, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "Players: {$data[ 'clients' ]}/{$data[ 'maxclients' ]}" );
+    imagettftext( $imagecontainer, 12, 0, $xoffset, 60, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "Map: {$map}" );
+    imagettftext( $imagecontainer, 12, 0, $xoffset, 75, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "Gametype: " . strtoupper( $gametype ) );
+    imagettftext( $imagecontainer, 12, 0, $xoffset, 90, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "Players: {$data[ 'clients' ]}/{$data[ 'maxclients' ]}" );
     
     if ( !isToDebug() ) {
         //Render the final picture
@@ -146,7 +148,7 @@ function setImageWidth( &$image_width, $data, $font, $font_size )
         if ( $data[ 'value' ] == "-1" )
             $image_width = 450;
         else
-            $image_width = 206 + getStringWidth( $data[ 'hostname' ] , $font, $font_size );
+            $image_width = 206 + getStringWidth( $data[ 'hostname' ], $font, $font_size );
     }
     if ( $image_width < 450 )
         $image_width = 450;
@@ -170,14 +172,12 @@ function getBGInfo( &$imagecontainer, $data, $mappath, &$mapimage )
     else
         $mapimage = imagecreatefromjpeg( $root . "maps/no_image.jpg" );
     
-    if ( ( !isSet( $_GET[ 'color' ] ) || $_GET[ 'color' ] == "no" ) && $data[ 'value' ] != "-1" )
-	{
-		if( !thisFileExists( $mappath ) )
-			$bgcolor = ImageColorAllocateFromHex( $imagecontainer, "404040" );
-		else
-			$bgcolor = AllocateAverageColor( $imagecontainer, $mapimage );
-    }
-    else {
+    if ( ( !isSet( $_GET[ 'color' ] ) || $_GET[ 'color' ] == "no" ) && $data[ 'value' ] != "-1" ) {
+        if ( !thisFileExists( $mappath ) )
+            $bgcolor = ImageColorAllocateFromHex( $imagecontainer, "404040" );
+        else
+            $bgcolor = AllocateAverageColor( $imagecontainer, $mapimage );
+    } else {
         $html_color = $_GET[ 'color' ];
         
         if ( !isset( $_GET[ 'color' ] ) || $_GET[ 'color' ] == "" ) {
@@ -186,7 +186,7 @@ function getBGInfo( &$imagecontainer, $data, $mappath, &$mapimage )
             if ( strpos( $html_color, "#" ) )
                 $html_color = substr( $html_color, 1 );
             
-        }			
+        }
         
         $bgcolor = ImageColorAllocateFromHex( $imagecontainer, $html_color );
     }
@@ -199,16 +199,15 @@ function getBGInfo( &$imagecontainer, $data, $mappath, &$mapimage )
 
 function getStringWidth( $string, $font, $size, $angle = 0 )
 {
-	$strlen = strlen($string);
-	$dim = 0;
-	
-	for ($i = 0; $i < $strlen; $i++)
-	{
-		$dimensions = imagettfbbox($size, $angle, $font, $string[$i]);
-		$dim += $dimensions[2] + ( $size / 5 );
-	}
-	
-	return $dim;
+    $strlen = strlen( $string );
+    $dim    = 0;
+    
+    for ( $i = 0; $i < $strlen; $i++ ) {
+        $dimensions = imagettfbbox( $size, $angle, $font, $string[ $i ] );
+        $dim += $dimensions[ 2 ] + ( $size / 5 );
+    }
+    
+    return $dim;
 }
 
 //------------------------------------------------------------------------------------------------------------+

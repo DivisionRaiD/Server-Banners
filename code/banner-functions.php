@@ -8,7 +8,9 @@
 //
 //------------------------------------------------------------------------------------------------------------+
 
-if (!defined("BANNER_CALL")) { exit("DIRECT ACCESS NOT ALLOWED"); }
+if ( !defined( "BANNER_CALL" ) ) {
+    exit( "DIRECT ACCESS NOT ALLOWED" );
+}
 
 //------------------------------------------------------------------------------------------------------------+
 //Insert server information into my database.
@@ -482,8 +484,8 @@ function setLocalGame( $global, &$local )
     if ( !isSet( $global ) || $global == "" || $global == "a" || $global == "a popular FPS series" || $global == urlencode( "a popular FPS series" ) ) {
         $local = "COD";
     }
-	
-	$_GET[ 'game' ] = $local;
+    
+    $_GET[ 'game' ] = $local;
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -493,9 +495,9 @@ function verifyInformation( &$info )
 {
     if ( !isSet( $info ) || !$info || $info == null )
         $info = getErr( getIP(), getPort() );
-		
-	else
-		cleanInformation( $info );
+    
+    else
+        cleanInformation( $info );
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -503,11 +505,10 @@ function verifyInformation( &$info )
 
 function cleanInformation( &$info )
 {
-	foreach( $info as $key => $value )
-	{
-		if( $key != "response" )
-			$info[ $key ] = preg_replace( '/[^(\x20-\x7F)]*/', '', $value );
-	}
+    foreach ( $info as $key => $value ) {
+        if ( $key != "response" )
+            $info[ $key ] = preg_replace( '/[^(\x20-\x7F)]*/', '', $value );
+    }
 }
 
 //------------------------------------------------------------------------------------------------------------+
