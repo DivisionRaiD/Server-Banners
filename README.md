@@ -19,6 +19,7 @@ Credit:
 	xPaw for his minecraft query class
 	The Dark Arts for his help throughout the coding. (Especially MC colors.)
 	BlackPulse for hosting all my stuff <3 ( http://blackpulse.us )
+	Jan Odvarko for the color picker on the site ( http://jscolor.com/ )
 
 License:
 	Copyright (C) 2013 momo5502 <MauriceHeumann@googlemail.com>
