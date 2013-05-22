@@ -69,75 +69,54 @@ function getMW3Port( $ip, $port, $cmd )
 //Parse the query data and return it as array
 
 function parseQueryData( $input, $ip, $port, $cmd )
-{
-    $server = $ip . ":" . $port;
-    $err    = "-";
-    
+{    
     if ( $input == "-1" )
-        $data = getErr( $ip, $port );
+        return getErr( $ip, $port );
     
-    else {
-        //New segmentation code
-        
-        if ( $cmd == "\xFF\xFF\xFF\xFFgetstatus\x00" ) {
-            $hostname = substr( $input, strpos( $input, "\\sv_hostname" ) + 13 );
-            $players  = count( getPlayers( $input ) );
-            $gametype = substr( $input, strpos( $input, "\\g_gametype" ) + 12 );
-        }
-        
-        else {
-            $hostname = substr( $input, strpos( $input, "\\hostname" ) + 10 );
-            
-            if ( !strpos( $input, "hostname" ) )
-                $hostname = "Unknown Hostname";
-            
-            if ( strpos( $input, "\\clients" ) ) {
-                $players = substr( $input, strpos( $input, "\\clients" ) + 9 );
-                $players = cleanFromRest( $players );
-            }
-            
-            else
-                $players = getMissingPlayers( $ip, $port );
-            
-            $gametype = substr( $input, strpos( $input, "\\gametype" ) + 10 );
-        }
-        
-        $maxplayers = substr( $input, strpos( $input, "\\sv_maxclients" ) + 15 );
-        $maxplayers = cleanFromRest( $maxplayers );
-        
-        $mapname = substr( $input, strpos( $input, "\\mapname" ) + 9 );
-        $mapname = cleanFromRest( $mapname );
-        
-        $hostname = cleanFromRest( $hostname );
-        
-        $gametype = cleanFromRest( $gametype );
-        
-        $protocol = substr( $input, strpos( $input, "\\protocol" ) + 10 );
-        $protocol = cleanFromRest( $protocol );
-        
-        //Get a clean hostname without '^1's or '^5's
-        $unclean = $hostname;
-        
-        for ( $i = 0; $i < 10; $i++ )
-            $hostname = str_replace( "^{$i}", "", $hostname );
-        
-        $value = 1;
-        
-        //Put information into an array
-        $data = array(
-             "value" => $value,
-            "hostname" => $hostname,
-            "gametype" => $gametype,
-            "protocol" => $protocol,
-            "clients" => $players,
-            "maxclients" => $maxplayers,
-            "mapname" => $mapname,
-            "server" => $server,
-            "unclean" => $unclean,
-            "response" => $input 
-        );
-        
-    }
+    if ( !strpos( $input, "hostname" ) )
+        $hostname = "Unknown Hostname";
+    
+    if ( strpos( $input, "\\clients" ) )
+        $players = substr( $input, strpos( $input, "\\clients" ) + 9 );
+    
+    else
+        $players = getMissingPlayers( $ip, $port );
+    
+    $gametype   = substr( $input, strpos( $input, "\\gametype" ) + 10 );
+    $maxplayers = substr( $input, strpos( $input, "\\sv_maxclients" ) + 15 );
+    $mapname    = substr( $input, strpos( $input, "\\mapname" ) + 9 );
+    $protocol   = substr( $input, strpos( $input, "\\protocol" ) + 10 );
+    $hostname   = substr( $input, strpos( $input, "\\hostname" ) + 10 );
+    
+    cleanFromRest( $mapname );
+    cleanFromRest( $hostname );
+    cleanFromRest( $gametype );
+    cleanFromRest( $maxplayers );
+    cleanFromRest( $protocol );
+    cleanFromRest( $players );
+    
+    //Get a clean hostname without '^1's or '^5's
+    $unclean = $hostname;
+    
+    for ( $i = 0; $i < 10; $i++ )
+        $hostname = str_replace( "^{$i}", "", $hostname );
+    
+    $value = 1;
+    
+    //Put information into an array
+    $data = array(
+         "value" => $value,
+        "hostname" => $hostname,
+        "gametype" => $gametype,
+        "protocol" => $protocol,
+        "clients" => $players,
+        "maxclients" => $maxplayers,
+        "mapname" => $mapname,
+        "server" => $ip . ":" . $port,
+        "unclean" => $unclean,
+        "response" => $input 
+    );
+    
     
     return $data;
 }
@@ -145,12 +124,10 @@ function parseQueryData( $input, $ip, $port, $cmd )
 //------------------------------------------------------------------------------------------------------------+
 //Clean input part from their rest behind
 
-function cleanFromRest( $self )
+function cleanFromRest( &$self )
 {
     if ( strpos( $self, "\\" ) )
-        return substr( $self, 0, strpos( $self, "\\" ) );
-    else
-        return $self;
+        $self = substr( $self, 0, strpos( $self, "\\" ) );
 }
 
 //------------------------------------------------------------------------------------------------------------+
