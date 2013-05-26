@@ -5,6 +5,7 @@
 //
 // Description: Code to parse Battlefield Bad Company 2 servers
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>
+// Note: Main algorithm by Richard Pery, copied from LGSL!
 //
 //------------------------------------------------------------------------------------------------------------+
 
@@ -41,7 +42,40 @@ function queryBFBC2( $ip, $port, $alt_port = false )
             return getErr( $ip, getPort() );
     }
     
-    setSeparators( $buffer, $separators );
+    $data = array(
+         "value" => 1,
+        "protocol" => "BFBC2",
+        "server" => $ip . ":" . $port,
+        "response" => $buffer 
+    );
+    
+    $length = lgsl_unpack( substr( $buffer, 4, 4 ), "L" );
+    
+    while ( strlen( $buffer ) < $length ) {
+        $packet = fread( $lgsl_fp, 4096 );
+        
+        if ( $packet ) {
+            $buffer .= $packet;
+        } else {
+            break;
+        }
+    }
+    
+    
+    $buffer = substr( $buffer, 12 );
+    
+    $response_type = lgsl_cut_pascal( $buffer, 4, 0, 1 );
+    
+    if ( $response_type != "OK" ) {
+        return getErr( $ip, getPort() );
+    }
+    
+    $data[ "hostname" ]   = lgsl_cut_pascal( $buffer, 4, 0, 1 );
+    $data[ "clients" ]    = lgsl_cut_pascal( $buffer, 4, 0, 1 );
+    $data[ "maxclients" ] = lgsl_cut_pascal( $buffer, 4, 0, 1 );
+    $data[ "gametype" ]   = lgsl_cut_pascal( $buffer, 4, 0, 1 );
+    $data[ "mapname" ]    = lgsl_cut_pascal( $buffer, 4, 0, 1 );
+    $data[ "unclean" ]    = $data[ "hostname" ];
     
     $tok                  = array( );
     $tok[ count( $tok ) ] = strtok( $buffer, $buffer[ $separators[ 0 ] ] );
@@ -50,67 +84,14 @@ function queryBFBC2( $ip, $port, $alt_port = false )
         $tok[ count( $tok ) ] = strtok( $buffer[ $separators[ $i ] ] );
     }
     
-    for ( $i = 0; $i < count( $tok ); $i++ ) {
-        $tok[ $i ] = preg_replace( '/[^(\x20-\x7F)]*/', '', $tok[ $i ] ); //Remove all non-ascii chars
-    }
+    foreach ( $data as $key => $value )
+        $data[ $key ] = preg_replace( '/[^(\x20-\x7F)]*/', '', $value ); //Remove all non-ascii chars
     
-    //Clean hostname
-    $tok[ 2 ] = substr( $tok[ 2 ], 3 );
+    $data[ "mapname" ] = strtolower( str_replace( "Levels/", "", $data[ "mapname" ] ) );
     
-    //Clean mapname and gametype
-    if ( $pos = strpos( $tok[ 5 ], "Levels/" ) ) //Happens on 0x20 separator
-        {
-        $char = 0;
-        
-        if ( $tok[ 5 ][ $pos - 1 ] == "\x20" ) //0x20 is an acii char
-            $char = 1;
-        
-        $tok[ 6 ] = substr( $tok[ 5 ], $pos );
-        $tok[ 5 ] = substr( $tok[ 5 ], 0, $pos - $char );
-    }
-    
-    $tok[ 6 ] = strtolower( str_replace( "Levels/", "", $tok[ 6 ] ) );
-    
-    cleanMapname( $tok[ 6 ] );
-    
-    $data = array(
-         "value" => 1,
-        "hostname" => $tok[ 2 ],
-        "gametype" => $tok[ 5 ],
-        "protocol" => "BFBC2",
-        "clients" => $tok[ 3 ],
-        "maxclients" => $tok[ 4 ],
-        "mapname" => $tok[ 6 ],
-        "server" => $ip . ":" . $port,
-        "unclean" => $tok[ 2 ],
-        "response" => $buffer 
-    );
+    cleanMapname( $data[ "mapname" ] );
     
     return $data;
-}
-
-//------------------------------------------------------------------------------------------------------------+
-//Sets the separators in the buffer
-
-function setSeparators( $buffer, &$separators )
-{
-    $separator = array(
-         "\x01",
-        "\x02",
-        "\x04",
-        "\x05",
-        "\x08",
-        "\x0F",
-        "\x13" 
-    ); //Maybe there are missing ones! 0x20 is a very bad separator :(
-    
-    for ( $i = 0; $i < strlen( $buffer ); $i++ ) {
-        foreach ( $separator as $sep ) {
-            if ( $buffer[ $i ] == $sep ) {
-                $separators[ count( $separators ) ] = $i;
-            }
-        }
-    }
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -135,4 +116,21 @@ function cleanMapname( &$mapname )
 }
 
 //------------------------------------------------------------------------------------------------------------+
+//LGSL stuff - thx to Richard Pery
+
+function lgsl_cut_pascal( &$buffer, $start_byte = 1, $length_adjust = 0, $end_byte = 0 )
+{
+    $length = ord( substr( $buffer, 0, $start_byte ) ) + $length_adjust;
+    $string = substr( $buffer, $start_byte, $length );
+    $buffer = substr( $buffer, $start_byte + $length + $end_byte );
+    
+    return $string;
+}
+
+function lgsl_unpack( $string, $format )
+{
+    list( , $string ) = @unpack( $format, $string );
+    
+    return $string;
+}
 ?>
