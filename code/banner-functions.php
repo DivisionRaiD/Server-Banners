@@ -250,6 +250,7 @@ function getGameEngine( $var )
         
         case ( "104" ):
         case ( "19816" ):
+        case ( "82" ): // Seems to be faked server ports, but meh
             return "MW3"; // IW5 engine
             break;
         

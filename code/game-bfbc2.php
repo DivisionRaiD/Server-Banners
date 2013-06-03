@@ -113,6 +113,9 @@ function cleanMapname( &$mapname )
     
     if ( $mapname[ strlen( $mapname ) - 1 ] == "_" )
         $mapname = substr( $mapname, 0, strlen( $mapname ) - 1 );
+		
+	if( substr( $mapname, 0, 4 ) == "nam_" )
+		$mapname = substr( $mapname, 4 );
 }
 
 //------------------------------------------------------------------------------------------------------------+

@@ -29,6 +29,8 @@ function printimage( $data )
     
     insertToDatabase( $data, $image_width );
     
+	$isMC   = ( isSet( $_GET[ "game" ] ) && $_GET[ "game" ] == "MC" ) ? true : false;
+	
     $image_height   = 100;
     $imagecontainer = imagecreatetruecolor( $image_width, $image_height );
     
@@ -39,7 +41,10 @@ function printimage( $data )
     $gametype = getGametype( $data[ 'gametype' ], $game );
     
     $mappath = $root . "maps/" . $game . "/preview_" . $data[ 'mapname' ] . ".jpg";
-    
+	
+	if( $isMC )
+		$mappath = $root . "maps/MC/preview_World.jpg";
+
     $bg_data = getBGInfo( $imagecontainer, $data, $mappath, $mapimage );
     
     imagefill( $imagecontainer, 0, 0, $bg_data );
@@ -76,7 +81,6 @@ function printimage( $data )
         $maxlen = strlen( $data[ 'unclean' ] );
         $dots   = false;
         $isCOD  = ( $_GET[ "game" ] == "COD" || !isSet( $_GET[ "game" ] ) ) ? true : false;
-        $isMC   = ( isSet( $_GET[ "game" ] ) && $_GET[ "game" ] == "MC" ) ? true : false;
         
         if ( $_GET[ 'width' ] != "" && isset( $_GET[ 'width' ] ) && ( 206 + getStringWidth( $data[ 'hostname' ], $font, $font_size ) ) > $_GET[ 'width' ] ) {
             $dots = true;
