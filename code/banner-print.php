@@ -88,6 +88,9 @@ function printimage( $data )
         }
         
         for ( $i = 0; $i <= $maxlen; $i++ ) {
+            if( strtolower( $data[ 'unclean' ][ $i ] ) == "v" ) // v is a weird letter^^
+                $length += 3;
+
             if ( $data[ 'unclean' ][ $i ] == "^" && $isCOD ) {
                 $tempcolor = getCODColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer );
                 if ( $tempcolor == "-1" ) {
