@@ -100,6 +100,9 @@ function parseQueryData( $input, $ip, $port, $cmd )
     
     for ( $i = 0; $i < 10; $i++ )
         $hostname = str_replace( "^{$i}", "", $hostname );
+		
+	$hostname = str_replace( "^:", "", $hostname );
+	$hostname = str_replace( "^;", "", $hostname );
     
     $value = 1;
     
