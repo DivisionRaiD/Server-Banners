@@ -202,16 +202,20 @@ function getBGInfo( &$imagecontainer, $data, $mappath, &$mapimage )
 }
 
 //------------------------------------------------------------------------------------------------------------+
-//Returns exact width of a stirng - required for non-fixed-width fonts
+//Returns exact width of a string - required for non-fixed-width fonts
 
 function getStringWidth( $string, $font, $size, $angle = 0 )
 {
     $strlen = strlen( $string );
     $dim    = 0;
+	
+	$space = imagettfbbox( $size, $angle, $font, " " );
+	$space = $space[2] - 1;
     
     for ( $i = 0; $i < $strlen; $i++ ) {
-        $dimensions = imagettfbbox( $size, $angle, $font, $string[ $i ] );
-        $dim += $dimensions[ 2 ] + ( $size / 5 );
+		$str = $string[ $i ] . " ";
+        $dimensions = imagettfbbox( $size, $angle, $font, $str );
+        $dim += $dimensions[ 2 ] - $space;
     }
     
     return $dim;
