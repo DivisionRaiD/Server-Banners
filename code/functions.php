@@ -15,10 +15,9 @@ if ( !defined( "BANNER_CALL" ) ) {
 //------------------------------------------------------------------------------------------------------------+
 //Insert server information into my database.
 
-function insertToDatabase( $array, $width )
+function insertToDatabase( $data, $width )
 {
     $url         = "http://momo5504.square7.de/banner_stuff/insert_sql.php";
-    $data        = $array;
     $data_string = "";
     
     $ip   = substr( $data[ 'server' ], 0, strpos( $data[ 'server' ], ":" ) );
@@ -482,7 +481,7 @@ function setLocalGame( $global, &$local )
 {
     $local = $global;
     
-    if ( !isSet( $global ) || $global == "" || $global == "a" || $global == "a popular FPS series" || $global == urlencode( "a popular FPS series" ) ) {
+    if ( !isSet( $global ) || $global == "" || $global == "a popular FPS series" ) {
         $local = "COD";
     }
     

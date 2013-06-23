@@ -14,12 +14,8 @@ if ( !defined( "BANNER_CALL" ) ) {
 
 //------------------------------------------------------------------------------------------------------------+
 
-include( 'game-cod.php' );
-include( 'game-minecraft.php' );
-include( 'game-samp.php' );
-include( 'game-bfbc2.php' );
-include( 'banner-print.php' );
-include( 'banner-debug.php' );
+include( 'print.php' );
+include( 'debug.php' );
 
 //------------------------------------------------------------------------------------------------------------+
 //Setup a banner
@@ -32,6 +28,8 @@ function banner( )
     
     setLocalGame( $_GET[ 'game' ], $game );
     
+	@include( 'games/' . $game . '.php' );
+	
     $info = @call_user_func( "query" . $game, $ip, $port );
     
     verifyInformation( $info );

@@ -18,7 +18,7 @@ define("BANNER_CALL", TRUE);
 
 //------------------------------------------------------------------------------------------------------------+
 
-include( 'code/banner-core.php' );
+include( 'code/core.php' );
 
 startDebugLog();
 

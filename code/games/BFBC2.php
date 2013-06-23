@@ -119,7 +119,7 @@ function cleanMapname( &$mapname )
 }
 
 //------------------------------------------------------------------------------------------------------------+
-//LGSL stuff - thx to Richard Pery
+//LGSL code - thx to Richard Pery
 
 function lgsl_cut_pascal( &$buffer, $start_byte = 1, $length_adjust = 0, $end_byte = 0 )
 {
@@ -136,4 +136,5 @@ function lgsl_unpack( $string, $format )
     
     return $string;
 }
+//------------------------------------------------------------------------------------------------------------+
 ?>
