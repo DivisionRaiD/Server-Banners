@@ -59,7 +59,7 @@ function printimage( $data )
     if ( $data[ 'value' ] == "-1" ) {
         $text = "Server is offline!";
         
-        imagettftext( $imagecontainer, $font_size, 0, $xoffset, $yoffset, Imagecolorallocate( $imagecontainer, 255, 0, 0 ), $font, $text );
+        imagettftext( $imagecontainer, $font_size, 0, $xoffset, $yoffset, Imagecolorallocate( $imagecontainer, 0, 165, 255 ), $font, $text );
         
         //I must add a little watermark :P
         $watermark = imagecreatefrompng( $root . "engine/watermark.png" );
