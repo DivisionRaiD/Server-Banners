@@ -90,27 +90,27 @@ function getCODColor( $number, $imagecontainer )
             break;
         
         case ( "1" ):
-            return Imagecolorallocate( $imagecontainer, 255, 0, 0 );
+            return Imagecolorallocate( $imagecontainer, 255, 49, 49 );
             break;
         
         case ( "2" ):
-            return Imagecolorallocate( $imagecontainer, 0, 255, 0 );
+            return Imagecolorallocate( $imagecontainer, 134, 192, 0 );
             break;
         
         case ( "3" ):
-            return Imagecolorallocate( $imagecontainer, 255, 255, 0 );
+            return Imagecolorallocate( $imagecontainer, 255, 173, 34 );
             break;
         
         case ( "4" ):
-            return Imagecolorallocate( $imagecontainer, 0, 0, 255 );
+            return Imagecolorallocate( $imagecontainer, 0, 135, 193 );
             break;
         
         case ( "5" ):
-            return Imagecolorallocate( $imagecontainer, 0, 255, 255 );
+            return Imagecolorallocate( $imagecontainer, 32, 157, 212 );
             break;
         
         case ( "6" ):
-            return Imagecolorallocate( $imagecontainer, 255, 0, 255 );
+            return Imagecolorallocate( $imagecontainer, 151, 80, 191 );
             break;
         
         case ( "7" ):
@@ -122,7 +122,7 @@ function getCODColor( $number, $imagecontainer )
             break;
         
         case ( "9" ):
-            return Imagecolorallocate( $imagecontainer, 141, 141, 141 );
+            return Imagecolorallocate( $imagecontainer, 193, 0, 0 );
             break;
         
         case ( ";" ):

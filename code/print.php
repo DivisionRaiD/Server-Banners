@@ -50,10 +50,13 @@ function printimage( $data )
     imagefill( $imagecontainer, 0, 0, $bg_data );
     
     //Add preview to the container
-    imagecopyresampled( $imagecontainer, $mapimage, 0, 0, 0, 0, 176, 100, imagesx( $mapimage ), imagesy( $mapimage ) );
+    imagecopyresampled( $imagecontainer, $mapimage, 9, 9, 0, 0, 144, 82, imagesx( $mapimage ), imagesy( $mapimage ) );
+	
+	$overlay = imagecreatefrompng($root . "overlay.png");
+	imagecopyresampled( $imagecontainer, $overlay, 0, 0, 0, 0, imagesx( $overlay ), imagesy( $overlay ), imagesx( $overlay ), imagesy( $overlay ) );
     
     $yoffset = 28;
-    $xoffset = 191;
+    $xoffset = 169;
     
     //Print this if the server is not reachable!
     if ( $data[ 'value' ] == "-1" ) {
