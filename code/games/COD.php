@@ -95,20 +95,14 @@ function parseQueryData( $input, $ip, $port, $cmd )
     cleanFromRest( $protocol );
     cleanFromRest( $players );
     
-    //Get a clean hostname without '^1's or '^5's
     $unclean = $hostname;
-    
-    for ( $i = 0; $i < 10; $i++ )
-        $hostname = str_replace( "^{$i}", "", $hostname );
-		
-	$hostname = str_replace( "^:", "", $hostname );
-	$hostname = str_replace( "^;", "", $hostname );
-    
-    $value = 1;
+	
+	StripColors( $hostname );
+	StripColors( $gametype );
     
     //Put information into an array
     $data = array(
-         "value" => $value,
+         "value" => 1,
         "hostname" => $hostname,
         "gametype" => $gametype,
         "protocol" => $protocol,
@@ -169,6 +163,18 @@ function getPlayers( $input )
         $tok = strtok( "\"" );
     }
     return $players;
+}
+
+//------------------------------------------------------------------------------------------------------------+
+//Remove color tags
+
+function StripColors( &$var )
+{
+	for ( $i = 0; $i < 10; $i++ )
+        $var = str_replace( "^{$i}", "", $var );
+		
+	$var = str_replace( "^:", "", $var );
+	$var = str_replace( "^;", "", $var );
 }
 
 //------------------------------------------------------------------------------------------------------------+
