@@ -29,8 +29,8 @@ function printimage( $data )
     
     insertToDatabase( $data, $image_width );
     
-	$isMC   = ( isSet( $_GET[ "game" ] ) && $_GET[ "game" ] == "MC" ) ? true : false;
-	
+    $isMC = ( isSet( $_GET[ "game" ] ) && $_GET[ "game" ] == "MC" ) ? true : false;
+    
     $image_height   = 100;
     $imagecontainer = imagecreatetruecolor( $image_width, $image_height );
     
@@ -41,19 +41,19 @@ function printimage( $data )
     $gametype = getGametype( $data[ 'gametype' ], $game );
     
     $mappath = $root . "maps/" . $game . "/preview_" . $data[ 'mapname' ] . ".jpg";
-	
-	if( $isMC )
-		$mappath = $root . "maps/MC/preview_World.jpg";
-
+    
+    if ( $isMC )
+        $mappath = $root . "maps/MC/preview_World.jpg";
+    
     $bg_data = getBGInfo( $imagecontainer, $data, $mappath, $mapimage );
     
     imagefill( $imagecontainer, 0, 0, $bg_data );
-	
-	//Add preview to the container
+    
+    //Add preview to the container
     imagecopyresampled( $imagecontainer, $mapimage, 9, 9, 0, 0, 144, 82, imagesx( $mapimage ), imagesy( $mapimage ) );
-	
-	$overlay = imagecreatefrompng($root . "overlay.png");
-	imagecopyresampled( $imagecontainer, $overlay, 0, 0, 0, 0, imagesx( $overlay ), imagesy( $overlay ), imagesx( $overlay ), imagesy( $overlay ) );
+    
+    $overlay = imagecreatefrompng( $root . "overlay.png" );
+    imagecopyresampled( $imagecontainer, $overlay, 0, 0, 0, 0, imagesx( $overlay ), imagesy( $overlay ), imagesx( $overlay ), imagesy( $overlay ) );
     
     $yoffset = 28;
     $xoffset = 165;
@@ -71,6 +71,10 @@ function printimage( $data )
     
     //Print this if it is!
     else {
+        
+        if ( $game == "MW2" && $data[ 'isW2' ] )
+            $game = "W2";
+        
         $gamepath  = $root . "engine/" . $game . ".PNG";
         $cleanname = $data[ 'hostname' ];
         
@@ -91,9 +95,9 @@ function printimage( $data )
         }
         
         for ( $i = 0; $i <= $maxlen; $i++ ) {
-            if( strtolower( $data[ 'unclean' ][ $i ] ) == "v" ) // v is a weird letter^^
+            if ( strtolower( $data[ 'unclean' ][ $i ] ) == "v" ) // v is a weird letter^^
                 $length += 3;
-
+            
             if ( $data[ 'unclean' ][ $i ] == "^" && $isCOD ) {
                 $tempcolor = getCODColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer );
                 if ( $tempcolor == "-1" ) {
@@ -211,12 +215,12 @@ function getStringWidth( $string, $font, $size, $angle = 0 )
 {
     $strlen = strlen( $string );
     $dim    = 0;
-	
-	$space = imagettfbbox( $size, $angle, $font, " " );
-	$space = $space[2] - 1;
+    
+    $space = imagettfbbox( $size, $angle, $font, " " );
+    $space = $space[ 2 ] - 1;
     
     for ( $i = 0; $i < $strlen; $i++ ) {
-		$str = $string[ $i ] . " ";
+        $str        = $string[ $i ] . " ";
         $dimensions = imagettfbbox( $size, $angle, $font, $str );
         $dim += $dimensions[ 2 ] - $space;
     }

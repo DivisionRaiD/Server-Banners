@@ -49,7 +49,7 @@ function getQueryData( $ip, $port, $send, $MW3 = true )
         }
         
         else
-            return substr( $output, 4 );
+            return $output;
     }
 }
 
@@ -69,36 +69,40 @@ function getMW3Port( $ip, $port, $cmd )
 //Parse the query data and return it as array
 
 function parseQueryData( $input, $ip, $port, $cmd )
-{    
+{
     if ( $input == "-1" )
         return getErr( $ip, $port );
     
     if ( !strpos( $input, "hostname" ) )
         $hostname = "Unknown Hostname";
     
-    if ( strpos( $input, "\\clients" ) )
-        $players = substr( $input, strpos( $input, "\\clients" ) + 9 );
+    $data  = substr( $input, 18 );
+    $data  = explode( "\\", $data );
+    $_data = array( );
+    
+    for ( $i = 0; $i < count( $data ); $i++ ) {
+        if ( $i % 2 == 1 ) {
+            $_data[ $data[ $i - 1 ] ] = $data[ $i ];
+        }
+    }
+    
+    if ( isSet( $_data[ "clients" ] ) )
+        $players = $_data[ "clients" ];
     
     else
         $players = getMissingPlayers( $ip, $port );
     
-    $gametype   = substr( $input, strpos( $input, "\\gametype" ) + 10 );
-    $maxplayers = substr( $input, strpos( $input, "\\sv_maxclients" ) + 15 );
-    $mapname    = substr( $input, strpos( $input, "\\mapname" ) + 9 );
-    $protocol   = substr( $input, strpos( $input, "\\protocol" ) + 10 );
-    $hostname   = substr( $input, strpos( $input, "\\hostname" ) + 10 );
-    
-    cleanFromRest( $mapname );
-    cleanFromRest( $hostname );
-    cleanFromRest( $gametype );
-    cleanFromRest( $maxplayers );
-    cleanFromRest( $protocol );
-    cleanFromRest( $players );
+    $gametype   = $_data[ "gametype" ];
+    $maxplayers = $_data[ "sv_maxclients" ];
+    $mapname    = $_data[ "mapname" ];
+    $protocol   = $_data[ "protocol" ];
+    $hostname   = $_data[ "hostname" ];
+    $isW2       = ( substr( $_data[ "shortversion" ], 0, 3 ) == "4.0" );
     
     $unclean = $hostname;
-	
-	StripColors( $hostname );
-	StripColors( $gametype );
+    
+    StripColors( $hostname );
+    StripColors( $gametype );
     
     //Put information into an array
     $data = array(
@@ -111,7 +115,8 @@ function parseQueryData( $input, $ip, $port, $cmd )
         "mapname" => $mapname,
         "server" => $ip . ":" . $port,
         "unclean" => $unclean,
-        "response" => $input 
+        "response" => $input,
+        "isW2" => $isW2 
     );
     
     
@@ -119,49 +124,28 @@ function parseQueryData( $input, $ip, $port, $cmd )
 }
 
 //------------------------------------------------------------------------------------------------------------+
-//Clean input part from their rest behind
-
-function cleanFromRest( &$self )
-{
-    if ( strpos( $self, "\\" ) )
-        $self = substr( $self, 0, strpos( $self, "\\" ) );
-}
-
-//------------------------------------------------------------------------------------------------------------+
 //Get the players - only for getstatus query
 
 function getPlayers( $input )
 {
-    $player_str = substr( $input, strpos( $input, "\n" ) + 1, strlen( $input ) );
-    $player_str = substr( $player_str, strpos( $player_str, "\n" ) + 1, strlen( $player_str ) );
-    $players    = array( );
-    $ZOB        = substr_count( $player_str, "\n" );
-    $tok        = strtok( $player_str, "\"" );
+    $data    = explode( "\n", $input );
+    $players = array( );
     
-    for ( $k = 1; $k <= $ZOB; $k++ ) {
-        $score = substr( $tok, 0, strpos( $tok, " " ) );
+    for ( $i = 1; $i < count( $data ) - 1; $i++ ) {
+        $player     = array( );
+        $score      = substr( $data[ $i ], 0, strpos( $data[ $i ], " " ) );
+        $data[ $i ] = substr( $data[ $i ], strpos( $data[ $i ], " " ) + 1 );
+        $ping       = substr( $data[ $i ], 0, strpos( $data[ $i ], " " ) );
+        $data[ $i ] = substr( $data[ $i ], strpos( $data[ $i ], " " ) + 2 );
+        $data[ $i ] = substr( $data[ $i ], 0, strlen( $data[ $i ] ) - 1 );
         
-        if ( substr( $score, 0, 1 ) == " " || substr( $score, 0, 1 ) == "\n" )
-            $score = substr( $score, 1, strlen( $score ) );
+        $player[ 'name' ]  = $data[ $i ];
+        $player[ 'score' ] = $score;
+        $player[ 'ping' ]  = $ping;
         
-        $ping = substr( $tok, strpos( $tok, " " ) + 1, strlen( $input ) );
-        
-        if ( substr( $ping, 0, 1 ) == " " || substr( $ping, 0, 1 ) == "\n" )
-            $ping = substr( $ping, 0, strlen( $ping ) - 1 );
-        
-        $tok  = strtok( "\"\n" );
-        $name = $tok;
-        
-        $p_array = array(
-             name => $name,
-            score => $score,
-            ping => $ping 
-        );
-        
-        array_push( $players, $p_array );
-        
-        $tok = strtok( "\"" );
+        array_push( $players, $player );
     }
+    
     return $players;
 }
 
@@ -170,11 +154,11 @@ function getPlayers( $input )
 
 function StripColors( &$var )
 {
-	for ( $i = 0; $i < 10; $i++ )
+    for ( $i = 0; $i < 10; $i++ )
         $var = str_replace( "^{$i}", "", $var );
-		
-	$var = str_replace( "^:", "", $var );
-	$var = str_replace( "^;", "", $var );
+    
+    $var = str_replace( "^:", "", $var );
+    $var = str_replace( "^;", "", $var );
 }
 
 //------------------------------------------------------------------------------------------------------------+
