@@ -56,7 +56,7 @@ function printimage( $data )
 	imagecopyresampled( $imagecontainer, $overlay, 0, 0, 0, 0, imagesx( $overlay ), imagesy( $overlay ), imagesx( $overlay ), imagesy( $overlay ) );
     
     $yoffset = 28;
-    $xoffset = 169;
+    $xoffset = 165;
     
     //Print this if the server is not reachable!
     if ( $data[ 'value' ] == "-1" ) {
