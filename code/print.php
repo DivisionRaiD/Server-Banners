@@ -48,8 +48,17 @@ function printimage( $data )
     $bg_data = getBGInfo( $imagecontainer, $data, $mappath, $mapimage );
     
     imagefill( $imagecontainer, 0, 0, $bg_data );
+	
+	$grain = imagecreatefrompng( $root . "grain.png" );
+	
+	imagelayereffect( $imagecontainer, IMG_EFFECT_OVERLAY );
+	
+	for( $i=0;( $i* imagesx( $grain )) < $image_width;$i++)
+		imagecopyresampled( $imagecontainer, $grain, $i* imagesx( $grain ), 0, 0, 0, imagesx( $grain ), imagesy( $grain ), imagesx( $grain ), imagesy( $grain ) );
     
-    //Add preview to the container
+    imagelayereffect( $imagecontainer, IMG_EFFECT_NORMAL );
+	
+	//Add preview to the container
     imagecopyresampled( $imagecontainer, $mapimage, 9, 9, 0, 0, 144, 82, imagesx( $mapimage ), imagesy( $mapimage ) );
 	
 	$overlay = imagecreatefrompng($root . "overlay.png");
