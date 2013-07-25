@@ -1,7 +1,7 @@
 <?
 //------------------------------------------------------------------------------------------------------------+
 //
-// Name: banner-debug.php
+// Name: debug.php
 //
 // Description: Code for debugging view of the banners
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>
@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------------------------------------+
 
 if ( !defined( "BANNER_CALL" ) ) {
-    exit( "DIRECT ACCESS NOT ALLOWED" );
+	exit( "DIRECT ACCESS NOT ALLOWED" );
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -24,10 +24,10 @@ $genData   = array( );
 
 function isToDebug( )
 {
-    if ( isSet( $_GET[ 'debug' ] ) && $_GET[ 'debug' ] != "0" )
-        return true;
-    
-    return false;
+	if ( isSet( $_GET[ 'debug' ] ) && $_GET[ 'debug' ] != "0" )
+		return true;
+	
+	return false;
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -35,12 +35,12 @@ function isToDebug( )
 
 function startDebugLog( )
 {
-    global $startTime;
-    
-    $startTime = MicroTime( true );
-    
-    if ( isToDebug() )
-        startHeaderCall();
+	global $startTime;
+	
+	$startTime = MicroTime( true );
+	
+	if ( isToDebug() )
+		startHeaderCall();
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -48,12 +48,12 @@ function startDebugLog( )
 
 function endDebugLog( )
 {
-    global $startTime, $genTime;
-    
-    $genTime = Number_Format( ( MicroTime( true ) - $startTime ), 4, '.', '' );
-    
-    if ( isToDebug() )
-        startBodyCall();
+	global $startTime, $genTime;
+	
+	$genTime = Number_Format( ( MicroTime( true ) - $startTime ), 4, '.', '' );
+	
+	if ( isToDebug() )
+		startBodyCall();
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -61,9 +61,9 @@ function endDebugLog( )
 
 function setDebugData( $data )
 {
-    global $genData;
-    
-    $genData = $data;
+	global $genData;
+	
+	$genData = $data;
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -71,9 +71,9 @@ function setDebugData( $data )
 
 function startHeaderCall( )
 {
-    echo "<!DOCTYPE html><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Debugging: " . getIP() . ":" . getPort() . "</title>";
-    echo "<link rel=\"stylesheet\" href=\"http://momo.blackpulse.us/generator/includes/css/debugStyle.css\" /></head><body>";
-    echo "<big><big>Generation errors:</big></big> \n<br>";
+	echo "<!DOCTYPE html><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Debugging: " . getIP() . ":" . getPort() . "</title>";
+	echo "<link rel=\"stylesheet\" href=\"http://momo.blackpulse.us/generator/includes/css/debugStyle.css\" /></head><body>";
+	echo "<big><big>Generation errors:</big></big> \n<br>";
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -81,18 +81,18 @@ function startHeaderCall( )
 
 function startBodyCall( )
 {
-    global $genData, $genTime;
-    
-    echo "<br><br><big><big>Debug Data:</big></big> \n<br><br>";
-    echo "<table><tbody>";
-    
-    if ( isSet( $genData ) )
-        foreach ( $genData as $key => $value )
-            echo "<tr><td>{$key}</td><td>{$value}</td></tr>";
-    
-    echo "<tr><td>Generation Time</td><td>{$genTime}s</td></tr>";
-    echo "</tbody></table>";
-    echo "</body></html>";
+	global $genData, $genTime;
+	
+	echo "<br><br><big><big>Debug Data:</big></big> \n<br><br>";
+	echo "<table><tbody>";
+	
+	if ( isSet( $genData ) )
+		foreach ( $genData as $key => $value )
+			echo "<tr><td>{$key}</td><td>{$value}</td></tr>";
+	
+	echo "<tr><td>Generation Time</td><td>{$genTime}s</td></tr>";
+	echo "</tbody></table>";
+	echo "</body></html>";
 }
 
 //------------------------------------------------------------------------------------------------------------+
