@@ -1,9 +1,9 @@
 <?
 //------------------------------------------------------------------------------------------------------------+
 //
-// Name: game-bfbc2.php
+// Name: BF.php
 //
-// Description: Code to parse Battlefield Bad Company 2 servers
+// Description: Code to parse Battlefield servers
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>
 // Note: Main algorithm by Richard Pery, copied from LGSL!
 //
@@ -14,19 +14,25 @@ if ( !defined( "BANNER_CALL" ) ) {
 }
 
 //------------------------------------------------------------------------------------------------------------+
-//Query BFBC2 server - main function!
+//Query BF server - main function!
 
-function queryBFBC2( $ip, $port, $alt_port = false )
+function query( $ip, $port, $alt_port = false )
 {
     $server  = "tcp://" . $ip;
     $connect = @fsockopen( $server, $port, $errno, $errstr, 1 );
     
     if ( !$connect ) {
         if ( !$alt_port )
-            return queryBFBC2( $ip, 48888, true );
+            return query( $ip, intval($port) + 22000, true );
         
         else
-            return getErr( $ip, getPort() );
+		{
+			if( intval($port) != 48888 )
+				return query( $ip, 48888, true );
+			
+			else
+				return getErr( $ip, getPort() );
+		}
     }
     
     @fwrite( $connect, "\x00\x00\x00\x00\x1b\x00\x00\x00\x01\x00\x00\x00\x0a\x00\x00\x00serverInfo\x00" );
@@ -36,18 +42,11 @@ function queryBFBC2( $ip, $port, $alt_port = false )
     
     if ( !$buffer || $info[ 'timed_out' ] ) {
         if ( !$alt_port )
-            return queryBFBC2( $ip, 48888, true );
+            return query( $ip, 48888, true );
         
         else
             return getErr( $ip, getPort() );
     }
-    
-    $data = array(
-         "value" => 1,
-        "protocol" => "BFBC2",
-        "server" => $ip . ":" . $port,
-        "response" => $buffer 
-    );
     
     $length = lgsl_unpack( substr( $buffer, 4, 4 ), "L" );
     
@@ -60,7 +59,13 @@ function queryBFBC2( $ip, $port, $alt_port = false )
             break;
         }
     }
-    
+	
+	$data = array(
+		"protocol" => "BF",
+        "value" => 1,
+        "server" => $ip . ":" . $port,
+        "response" => $buffer 
+    );
     
     $buffer = substr( $buffer, 12 );
     
@@ -74,15 +79,11 @@ function queryBFBC2( $ip, $port, $alt_port = false )
     $data[ "clients" ]    = lgsl_cut_pascal( $buffer, 4, 0, 1 );
     $data[ "maxclients" ] = lgsl_cut_pascal( $buffer, 4, 0, 1 );
     $data[ "gametype" ]   = lgsl_cut_pascal( $buffer, 4, 0, 1 );
-    $data[ "mapname" ]    = lgsl_cut_pascal( $buffer, 4, 0, 1 );
+    $data[ "mapname" ]    = strtolower(lgsl_cut_pascal( $buffer, 4, 0, 1 ));
+	$data[ "protocol"]    = getPunkbusterProtocol( $buffer );
     $data[ "unclean" ]    = $data[ "hostname" ];
     
-    $tok                  = array( );
-    $tok[ count( $tok ) ] = strtok( $buffer, $buffer[ $separators[ 0 ] ] );
-    
-    for ( $i = 1; $i < count( $separators ); $i++ ) {
-        $tok[ count( $tok ) ] = strtok( $buffer[ $separators[ $i ] ] );
-    }
+	$data[ "gametype" ] = substr( $data[ "gametype" ], 0, strlen( $data[ "gametype" ] ) - 1 );
     
     foreach ( $data as $key => $value )
         $data[ $key ] = preg_replace( '/[^(\x20-\x7F)]*/', '', $value ); //Remove all non-ascii chars
@@ -116,6 +117,43 @@ function cleanMapname( &$mapname )
 		
 	if( substr( $mapname, 0, 4 ) == "nam_" )
 		$mapname = substr( $mapname, 4 );
+}
+
+//------------------------------------------------------------------------------------------------------------+
+//Get Protocol from Bunkbuster http://www.punkbuster.com/
+
+function getPunkbusterProtocol( &$buffer )
+{
+	for($i=0;$i<20;$i++)
+	{
+		$temp = lgsl_cut_pascal( $buffer, 4, 0, 1 );
+		$temp = preg_replace( '/[^(\x20-\x7F)]*/', '', $temp );
+
+		if( $temp[0] == "v" && $temp[2] == "." ) //version and separation dot
+		{
+			$temp = substr( $temp, 0, 6 );
+			switch( $temp )
+			{
+				case "v1.867": //BF3 
+					return "BF3";
+					break;
+		
+				case "v1.826": //BFBC2 
+					return "BFBC2";
+					break;
+		
+				default:
+					return "BF";
+					break;
+			}
+		}
+		
+		else if( $temp == "BC2" )
+			return "BFBC2";
+			
+	}
+	
+	return "BF";
 }
 
 //------------------------------------------------------------------------------------------------------------+

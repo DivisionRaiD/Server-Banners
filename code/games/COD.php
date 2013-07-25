@@ -1,7 +1,7 @@
 <?
 //------------------------------------------------------------------------------------------------------------+
 //
-// Name: game-cod.php
+// Name: COD.php
 //
 // Description: Code to parse COD servers (Quake3 based)
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>
@@ -15,7 +15,7 @@ if ( !defined( "BANNER_CALL" ) ) {
 //------------------------------------------------------------------------------------------------------------+
 //Query COD server - main function!
 
-function queryCOD( $ip, $port )
+function query( $ip, $port )
 {
     $cmd = "\xFF\xFF\xFF\xFFgetinfo\x00";
     

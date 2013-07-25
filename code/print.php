@@ -65,7 +65,7 @@ function printimage( $data )
         imagettftext( $imagecontainer, $font_size, 0, $xoffset, $yoffset, Imagecolorallocate( $imagecontainer, 0, 165, 255 ), $font, $text );
         
         //I must add a little watermark :P
-        $watermark = imagecreatefrompng( $root . "engine/watermark.png" );
+        $watermark = imagecreatefrompng( $root . "watermark.png" );
         imagecopyresampled( $imagecontainer, $watermark, $image_width - 75, 60, 0, 0, 63, 35, 320, 176 );
     }
     
@@ -75,7 +75,7 @@ function printimage( $data )
         if ( $game == "MW2" && $data[ 'isW2' ] )
             $game = "W2";
         
-        $gamepath  = $root . "engine/" . $game . ".PNG";
+        $gamepath  = $root . "games/" . $game . ".png";
         $cleanname = $data[ 'hostname' ];
         
         if ( thisFileExists( $gamepath ) ) {

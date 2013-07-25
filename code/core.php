@@ -30,7 +30,7 @@ function banner( )
     
 	@include( 'games/' . $game . '.php' );
 	
-    $info = @call_user_func( "query" . $game, $ip, $port );
+    $info = @call_user_func( "query", $ip, $port );
     
     verifyInformation( $info );
     

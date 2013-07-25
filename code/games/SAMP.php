@@ -1,7 +1,7 @@
 <?
 //------------------------------------------------------------------------------------------------------------+
 //
-// Name: game-samp.php
+// Name: SAMP.php
 //
 // Description: Code to parse GTA SAMP servers
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>
@@ -15,7 +15,7 @@ if ( !defined( "BANNER_CALL" ) ) {
 //------------------------------------------------------------------------------------------------------------+
 //Query SAMP servers, parse them and return the array
 
-function querySAMP( $ip, $port )
+function query( $ip, $port )
 {
     
     $aIPAddr = explode( '.', $ip );

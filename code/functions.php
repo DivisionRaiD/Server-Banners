@@ -484,6 +484,10 @@ function setLocalGame( $global, &$local )
     if ( !isSet( $global ) || $global == "" || $global == "a popular FPS series" ) {
         $local = "COD";
     }
+	
+	if ( $global == "BFBC2" ) {
+        $local = "BF";
+    }
     
     $_GET[ 'game' ] = $local;
 }

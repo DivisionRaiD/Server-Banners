@@ -1,7 +1,7 @@
 <?
 //------------------------------------------------------------------------------------------------------------+
 //
-// Name: game-minecraft.php
+// Name: MC.php
 //
 // Description: Code to parse Minecraft servers
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>
@@ -19,7 +19,7 @@ include( 'xPaw/MinecraftQuery.class.php' );
 //------------------------------------------------------------------------------------------------------------+
 //Query minecraft servers
 
-function queryMC( $ip, $port )
+function query( $ip, $port )
 {
     $Query = new MinecraftQuery();
     
