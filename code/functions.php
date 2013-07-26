@@ -34,6 +34,7 @@ function insertToDatabase( $data, $width )
 	$data[ 'game' ]     = $game;
 	$data[ 'userip' ]   = $_SERVER[ "REMOTE_ADDR" ];
 	$data[ 'response' ] = "-";
+	$data[ 'fromGen' ]  = isSet( $_GET["gen"] );
 	
 	foreach ( $data as $key => $value ) {
 		$data[ $key ] = urlencode( $value );
@@ -483,10 +484,6 @@ function setLocalGame( $global, &$local )
 	
 	if ( !isSet( $global ) || $global == "" || $global == "a popular FPS series" ) {
 		$local = "COD";
-	}
-	
-	if ( $global == "BFBC2" ) {
-		$local = "BF";
 	}
 	
 	$_GET[ 'game' ] = $local;

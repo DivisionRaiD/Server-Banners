@@ -16,22 +16,13 @@ if ( !defined( "BANNER_CALL" ) ) {
 //------------------------------------------------------------------------------------------------------------+
 //Query BF server - main function!
 
-function query( $ip, $port, $alt_port = false )
+function queryMain( $ip, $port )
 {
 	$server  = "tcp://" . $ip;
 	$connect = @fsockopen( $server, $port, $errno, $errstr, 1 );
 	
 	if ( !$connect ) {
-		if ( !$alt_port )
-			return query( $ip, intval( $port ) + 22000, true );
-		
-		else {
-			if ( intval( $port ) != 48888 )
-				return query( $ip, 48888, true );
-			
-			else
-				return getErr( $ip, getPort() );
-		}
+		return getErr( $ip, getPort() );
 	}
 	
 	@fwrite( $connect, "\x00\x00\x00\x00\x1b\x00\x00\x00\x01\x00\x00\x00\x0a\x00\x00\x00serverInfo\x00" );
@@ -79,7 +70,6 @@ function query( $ip, $port, $alt_port = false )
 	$data[ "maxclients" ] = lgsl_cut_pascal( $buffer, 4, 0, 1 );
 	$data[ "gametype" ]   = lgsl_cut_pascal( $buffer, 4, 0, 1 );
 	$data[ "mapname" ]    = strtolower( lgsl_cut_pascal( $buffer, 4, 0, 1 ) );
-	$data[ "protocol" ]   = getPunkbusterProtocol( $buffer );
 	$data[ "unclean" ]    = $data[ "hostname" ];
 	
 	$data[ "gametype" ] = substr( $data[ "gametype" ], 0, strlen( $data[ "gametype" ] ) - 1 );
@@ -99,6 +89,7 @@ function query( $ip, $port, $alt_port = false )
 
 function cleanMapname( &$mapname )
 {
+	$mapname = str_replace( "levels/", "", $mapname );
 	$endings = array(
 		 "gr",
 		"cq",
@@ -116,41 +107,6 @@ function cleanMapname( &$mapname )
 	
 	if ( substr( $mapname, 0, 4 ) == "nam_" )
 		$mapname = substr( $mapname, 4 );
-}
-
-//------------------------------------------------------------------------------------------------------------+
-//Get Protocol from Bunkbuster http://www.punkbuster.com/
-
-function getPunkbusterProtocol( &$buffer )
-{
-	for ( $i = 0; $i < 20; $i++ ) {
-		$temp = lgsl_cut_pascal( $buffer, 4, 0, 1 );
-		$temp = preg_replace( '/[^(\x20-\x7F)]*/', '', $temp );
-		
-		if ( $temp[ 0 ] == "v" && $temp[ 2 ] == "." ) //version and separation dot
-		{
-			$temp = substr( $temp, 0, 6 );
-			switch ( $temp ) {
-				case "v1.867": //BF3 
-					return "BF3";
-					break;
-				
-				case "v1.826": //BFBC2 
-					return "BFBC2";
-					break;
-				
-				default:
-					return "BF";
-					break;
-			}
-		}
-		
-		else if ( $temp == "BC2" )
-			return "BFBC2";
-		
-	}
-	
-	return "BF";
 }
 
 //------------------------------------------------------------------------------------------------------------+
