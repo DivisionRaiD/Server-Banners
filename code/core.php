@@ -26,9 +26,11 @@ function banner( )
 	$ip   = getIP();
 	$port = getPort();
 	
-	setLocalGame( $_GET[ 'game' ], $game );
+	global $_game;
 	
-	@include( 'games/' . $game . '.php' );
+	setLocalGame( $_GET[ 'game' ], $_game );
+	
+	@include( 'games/' . $_game . '.php' );
 	
 	$info = @call_user_func( "query", $ip, $port );
 	

@@ -21,15 +21,17 @@ include( 'functions.php' );
 
 function printimage( $data )
 {
-	global $root, $font;
+	global $root, $font, $_game;
 	
 	$font_size = 15;
+	$yoffset = 28;
+	$xoffset = 165;
 	
-	setImageWidth( $image_width, $data, $font, $font_size );
+	setImageWidth( $image_width, $data, $font, $font_size, $xoffset );
 	
 	insertToDatabase( $data, $image_width );
 	
-	$isMC = ( isSet( $_GET[ "game" ] ) && $_GET[ "game" ] == "MC" ) ? true : false;
+	$isMC = ( $_game == "MC" );
 	
 	$image_height   = 100;
 	$imagecontainer = imagecreatetruecolor( $image_width, $image_height );
@@ -54,9 +56,6 @@ function printimage( $data )
 	
 	$overlay = imagecreatefrompng( $root . "overlay.png" );
 	imagecopyresampled( $imagecontainer, $overlay, 0, 0, 0, 0, imagesx( $overlay ), imagesy( $overlay ), imagesx( $overlay ), imagesy( $overlay ) );
-	
-	$yoffset = 28;
-	$xoffset = 165;
 	
 	//Print this if the server is not reachable!
 	if ( $data[ 'value' ] == "-1" ) {
@@ -83,16 +82,11 @@ function printimage( $data )
 			imagecopyresampled( $imagecontainer, $gameimage, $image_width - 75, 60, 0, 0, 63, 35, 320, 176 );
 		}
 		
-		$length = $xoffset;
-		$color  = Imagecolorallocate( $imagecontainer, 255, 255, 255 );
-		$maxlen = strlen( $data[ 'unclean' ] );
-		$dots   = false;
-		$isCOD  = ( $_GET[ "game" ] == "COD" || !isSet( $_GET[ "game" ] ) ) ? true : false;
-		
-		if ( $_GET[ 'width' ] != "" && isset( $_GET[ 'width' ] ) && ( 206 + getStringWidth( $data[ 'hostname' ], $font, $font_size ) ) > $_GET[ 'width' ] ) {
-			$dots = true;
-			$maxlen -= round( ( ( 195 + getStringWidth( $data[ 'hostname' ], $font, $font_size ) ) - intval( $_GET[ 'width' ] ) ) / ( getStringWidth( $data[ 'hostname' ], $font, $font_size ) / strlen( $data[ 'hostname' ] ) ), 0 ) + 3;
-		}
+		$length     = $xoffset;
+		$color      = Imagecolorallocate( $imagecontainer, 255, 255, 255 );
+		$maxlen     = strlen( $data[ 'unclean' ] );
+		$isCOD      = ( $_game == "COD" );
+		$namelength = getStringWidth( $data[ 'hostname' ], $font, $font_size );
 		
 		for ( $i = 0; $i <= $maxlen; $i++ ) {
 			if ( strtolower( $data[ 'unclean' ][ $i ] ) == "v" ) // v is a weird letter^^
@@ -129,10 +123,6 @@ function printimage( $data )
 				$length += getStringWidth( $data[ 'unclean' ][ $i ], $font, $font_size );
 			}
 		}
-		
-		if ( $dots )
-			imagettftext( $imagecontainer, $font_size, 0, $length, $yoffset, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "..." );
-		
 	}
 	
 	imagettftext( $imagecontainer, 12, 0, $xoffset, 45, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "IP: {$data[ 'server' ]}" );
@@ -154,18 +144,18 @@ function printimage( $data )
 //------------------------------------------------------------------------------------------------------------+
 //Set the width for the banner
 
-function setImageWidth( &$image_width, $data, $font, $font_size )
+function setImageWidth( &$image_width, $data, $font, $font_size, $xoffset )
 {
 	if ( isset( $_GET[ 'width' ] ) && $_GET[ 'width' ] != "" && $_GET[ 'width' ] != "no" )
 		$image_width = $_GET[ 'width' ];
 	else {
 		if ( $data[ 'value' ] == "-1" )
-			$image_width = 450;
+			$image_width = 400;
 		else
-			$image_width = 206 + getStringWidth( $data[ 'hostname' ], $font, $font_size );
+			$image_width = $xoffset + 15 + getStringWidth( $data[ 'hostname' ], $font, $font_size );
 	}
-	if ( $image_width < 450 )
-		$image_width = 450;
+	if ( $image_width < 400 )
+		$image_width = 400;
 	
 	$image_width = round( $image_width, 0 );
 }
