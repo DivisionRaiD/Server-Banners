@@ -57,6 +57,8 @@ function printimage( $data )
 	$overlay = imagecreatefrompng( $root . "overlay.png" );
 	imagecopyresampled( $imagecontainer, $overlay, 0, 0, 0, 0, imagesx( $overlay ), imagesy( $overlay ), imagesx( $overlay ), imagesy( $overlay ) );
 	
+	$white = Imagecolorallocate( $imagecontainer, 255, 255, 255 );
+	
 	//Print this if the server is not reachable!
 	if ( $data[ 'value' ] == "-1" ) {
 		$text = "Server is offline!";
@@ -88,10 +90,8 @@ function printimage( $data )
 		$isCOD      = ( $_game == "COD" );
 		$namelength = getStringWidth( $data[ 'hostname' ], $font, $font_size );
 		
-		for ( $i = 0; $i <= $maxlen; $i++ ) {
-			if ( strtolower( $data[ 'unclean' ][ $i ] ) == "v" ) // v is a weird letter^^
-				$length += 3;
-			
+		for ( $i = 0; $i <= $maxlen; $i++ ) 
+		{
 			if ( $data[ 'unclean' ][ $i ] == "^" && $isCOD ) {
 				$tempcolor = getCODColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer );
 				if ( $tempcolor == "-1" ) {
@@ -125,10 +125,10 @@ function printimage( $data )
 		}
 	}
 	
-	imagettftext( $imagecontainer, 12, 0, $xoffset, 45, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "IP: {$data[ 'server' ]}" );
-	imagettftext( $imagecontainer, 12, 0, $xoffset, 60, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "Map: {$map}" );
-	imagettftext( $imagecontainer, 12, 0, $xoffset, 75, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "Gametype: " . strtoupper( $gametype ) );
-	imagettftext( $imagecontainer, 12, 0, $xoffset, 90, Imagecolorallocate( $imagecontainer, 255, 255, 255 ), $font, "Players: {$data[ 'clients' ]}/{$data[ 'maxclients' ]}" );
+	imagettftext( $imagecontainer, 12, 0, $xoffset, 45, $white, $font, "IP: {$data[ 'server' ]}" );
+	imagettftext( $imagecontainer, 12, 0, $xoffset, 60, $white, $font, "Map: {$map}" );
+	imagettftext( $imagecontainer, 12, 0, $xoffset, 75, $white, $font, "Gametype: " . strtoupper( $gametype ) );
+	imagettftext( $imagecontainer, 12, 0, $xoffset, 90, $white, $font, "Players: {$data[ 'clients' ]}/{$data[ 'maxclients' ]}" );
 	
 	if ( !isToDebug() ) {
 		//Render the final picture
@@ -206,13 +206,21 @@ function getStringWidth( $string, $font, $size, $angle = 0 )
 	$strlen = strlen( $string );
 	$dim    = 0;
 	
-	$space = imagettfbbox( $size, $angle, $font, " " );
-	$space = $space[ 2 ] - 1;
+	$box    = imagettfbbox( $size, $angle, $font, " " );
+	$min_x  = min( array($box[0], $box[2], $box[4], $box[6]) ); 
+	$max_x  = max( array($box[0], $box[2], $box[4], $box[6]) ); 
+	$space  = ( $max_x - $min_x );
 	
-	for ( $i = 0; $i < $strlen; $i++ ) {
-		$str        = $string[ $i ] . " ";
-		$dimensions = imagettfbbox( $size, $angle, $font, $str );
-		$dim += $dimensions[ 2 ] - $space;
+	for ( $i = 0; $i < $strlen; $i++ ) 
+	{
+		$str = " " . $string[ $i ] . " ";
+		$box = imagettfbbox( $size, $angle, $font, $str );
+		
+		$min_x  = min( array($box[0], $box[2], $box[4], $box[6]) ); 
+		$max_x  = max( array($box[0], $box[2], $box[4], $box[6]) ); 
+		$width  = ( $max_x - $min_x ); 
+		
+		$dim += $width - ( $space * 2 );
 	}
 	
 	return $dim;
