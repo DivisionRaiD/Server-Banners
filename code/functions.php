@@ -66,18 +66,15 @@ function getOfflineWidth( )
 	$port   = substr( $info[ 'server' ], strpos( $info[ 'server' ], ":" ) + 1 );
 	$return = 400;
 	
-	if ( $fp = @fopen( 'http://momo5504.square7.de/banner_stuff/getWidth.php?ip=' . $ip . '&port=' . $port, 'r' ) ) {
-		$content = '';
-		
-		while ( $line = fgets( $fp, 1024 ) ) {
-			$content .= $line;
-		}
-		fclose( $fp );
-		
+	try
+	{
+		$content = file_get_contents( 'http://momo5504.square7.de/banner_stuff/getWidth.php?ip=' . $ip . '&port=' . $port );
 		$return = floatval( substr( $content, 0, strpos( $content, "\n" ) ) );
 	}
-	
-	return $return;
+	catch
+	{
+		return $return;
+	}
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -297,12 +294,8 @@ function getGametype( $var, $game )
 
 function getMapName( $var, $game )
 {
-	if ( $fp = @fopen( 'http://momo5504.square7.de/banner_stuff/getMap.php?mapname=' . $var . '&game=' . $game, 'r' ) ) {
-		$content = '';
-		
-		while ( $line = fgets( $fp, 1024 ) ) {
-			$content .= $line;
-		}
+	try {
+		$content = file_get_contents('http://momo5504.square7.de/banner_stuff/getMap.php?mapname=' . $var . '&game=' . $game);
 		
 		if ( $content == "" )
 			return $var;
@@ -312,8 +305,9 @@ function getMapName( $var, $game )
 			else
 				return $content;
 		}
-	} else
+	} catch {
 		return $var;
+	}
 }
 
 //------------------------------------------------------------------------------------------------------------+
