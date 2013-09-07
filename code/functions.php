@@ -46,15 +46,30 @@ function insertToDatabase( $data, $width )
 	
 	rtrim( $data_string, '&' );
 	
-	$ch = curl_init();
+	if( function_exists('curl_version') )
+	{
+		$ch = curl_init();
 	
-	curl_setopt( $ch, CURLOPT_URL, $url );
-	curl_setopt( $ch, CURLOPT_POST, count( $data ) );
-	curl_setopt( $ch, CURLOPT_POSTFIELDS, $data_string );
+		curl_setopt( $ch, CURLOPT_URL, $url );
+		curl_setopt( $ch, CURLOPT_POST, count( $data ) );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, $data_string );
 	
-	$result = curl_exec( $ch );
+		$result = curl_exec( $ch );
 	
-	curl_close( $ch );
+		curl_close( $ch );
+	}
+	else
+	{
+		$options = array(
+			'http' => array(
+			'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+			'method'  => 'POST',
+			'content' => http_build_query($data),
+			),
+		);
+		$context  = stream_context_create($options);
+		$result = file_get_contents($url, false, $context);
+	}
 }
 
 //------------------------------------------------------------------------------------------------------------+
@@ -71,7 +86,7 @@ function getOfflineWidth( )
 		$content = file_get_contents( 'http://momo5504.square7.de/banner_stuff/getWidth.php?ip=' . $ip . '&port=' . $port );
 		$return = floatval( substr( $content, 0, strpos( $content, "\n" ) ) );
 	}
-	catch
+	catch( Exception $e )
 	{
 		return $return;
 	}
@@ -305,7 +320,7 @@ function getMapName( $var, $game )
 			else
 				return $content;
 		}
-	} catch {
+	} catch( Exception $e ) {
 		return $var;
 	}
 }
