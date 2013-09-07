@@ -9,6 +9,7 @@
 //
 //------------------------------------------------------------------------------------------------------------+
 
+error_reporting(E_ALL ^  E_NOTICE); 
 define( "BANNER_CALL", TRUE );
 
 //------------------------------------------------------------------------------------------------------------+
@@ -22,7 +23,8 @@ if ( !isToDebug() )
 
 $_game = NULL;
 $root  = "images/"; //Folder where to get the images
-$font  = "fonts/font.ttf"; //Font file for the text
+$font  = "fonts/font.ttf"; //Font file for the name
+$f_inf = "fonts/contl.ttf"; //Font file for the info
 
 banner();
 

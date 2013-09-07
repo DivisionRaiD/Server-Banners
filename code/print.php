@@ -21,7 +21,7 @@ include( 'functions.php' );
 
 function printimage( $data )
 {
-	global $root, $font, $_game;
+	global $root, $font, $_game, $f_inf;
 	
 	$font_size = 15;
 	$yoffset = 28;
@@ -41,8 +41,8 @@ function printimage( $data )
 	$game     = getGameEngine( $data[ 'protocol' ] );
 	$map      = getMapName( $data[ 'mapname' ], $game );
 	$gametype = getGametype( $data[ 'gametype' ], $game );
-	
-	$mappath = $root . "maps/" . $game . "/preview_" . $data[ 'mapname' ] . ".jpg";
+	$size     = 12;
+	$mappath  = $root . "maps/" . $game . "/preview_" . $data[ 'mapname' ] . ".jpg";
 	
 	if ( $isMC )
 		$mappath = $root . "maps/MC/preview_World.jpg";
@@ -125,10 +125,10 @@ function printimage( $data )
 		}
 	}
 	
-	imagettftext( $imagecontainer, 12, 0, $xoffset, 45, $white, $font, "IP: {$data[ 'server' ]}" );
-	imagettftext( $imagecontainer, 12, 0, $xoffset, 60, $white, $font, "Map: {$map}" );
-	imagettftext( $imagecontainer, 12, 0, $xoffset, 75, $white, $font, "Gametype: " . strtoupper( $gametype ) );
-	imagettftext( $imagecontainer, 12, 0, $xoffset, 90, $white, $font, "Players: {$data[ 'clients' ]}/{$data[ 'maxclients' ]}" );
+	imagettftext( $imagecontainer, $size, 0, $xoffset, 45, $white, $f_inf, "IP: {$data[ 'server' ]}" );
+	imagettftext( $imagecontainer, $size, 0, $xoffset, 60, $white, $f_inf, "Map: {$map}" );
+	imagettftext( $imagecontainer, $size, 0, $xoffset, 75, $white, $f_inf, "Gametype: " . strtoupper( $gametype ) );
+	imagettftext( $imagecontainer, $size, 0, $xoffset, 90, $white, $f_inf, "Players: {$data[ 'clients' ]}/{$data[ 'maxclients' ]}" );
 	
 	if ( !isToDebug() ) {
 		//Render the final picture
@@ -209,7 +209,7 @@ function getStringWidth( $string, $font, $size, $angle = 0 )
 	$box    = imagettfbbox( $size, $angle, $font, " " );
 	$min_x  = min( array($box[0], $box[2], $box[4], $box[6]) ); 
 	$max_x  = max( array($box[0], $box[2], $box[4], $box[6]) ); 
-	$space  = ( $max_x - $min_x );
+	$space  = ( $max_x - $min_x ) - 1;
 	
 	for ( $i = 0; $i < $strlen; $i++ ) 
 	{
