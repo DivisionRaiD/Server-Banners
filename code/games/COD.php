@@ -1,4 +1,4 @@
-<?
+<?php
 //------------------------------------------------------------------------------------------------------------+
 //
 // Name: COD.php
@@ -29,7 +29,7 @@ function getQueryData( $ip, $port, $send, $MW3 = true )
 {
 	$server  = "udp://" . $ip;
 	$connect = @fsockopen( $server, $port, $errno, $errstr, 1 );
-	
+
 	if ( !$connect )
 		return "-1";
 	

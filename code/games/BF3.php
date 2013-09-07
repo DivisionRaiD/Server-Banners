@@ -1,9 +1,9 @@
-<?
+<?php
 //------------------------------------------------------------------------------------------------------------+
 //
 // Name: BF3.php
 //
-// Description: Code to parse Battlefield servers
+// Description: Code to parse Battlefield 3 servers
 // Initial author: momo5502 <MauriceHeumann@googlemail.com>
 // Note: Main algorithm by Richard Pery, copied from LGSL!
 //
