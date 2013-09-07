@@ -23,10 +23,10 @@ $genData   = array( );
 //Returns boolean value if banners should be debugged
 
 function isToDebug( )
-{
+{		
 	if ( isSet( $_GET[ 'debug' ] ) && $_GET[ 'debug' ] != "0" )
 		return true;
-	
+		
 	return false;
 }
 
