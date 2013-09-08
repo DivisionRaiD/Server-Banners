@@ -14,6 +14,7 @@ if ( !defined( "BANNER_CALL" ) ) {
 
 //------------------------------------------------------------------------------------------------------------+
 
+include( 'analyzeGD.php' );
 include( 'print.php' );
 include( 'debug.php' );
 

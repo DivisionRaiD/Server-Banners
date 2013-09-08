@@ -39,7 +39,12 @@ function printimage( $data )
 	imagesavealpha( $imagecontainer, true );
 	
 	$game     = getGameEngine( $data[ 'protocol' ] );
-	$map      = getMapName( $data[ 'mapname' ], $game );
+	
+	$map = $data[ 'mapname' ];
+	
+	if ( $data[ 'value' ] != "-1" )
+		$map = getMapName( $data[ 'mapname' ], $game );
+		
 	$gametype = getGametype( $data[ 'gametype' ], $game );
 	$size     = 12;
 	$mappath  = $root . "maps/" . $game . "/preview_" . $data[ 'mapname' ] . ".jpg";
@@ -209,7 +214,7 @@ function getStringWidth( $string, $font, $size, $angle = 0 )
 	$box    = imagettfbbox( $size, $angle, $font, " " );
 	$min_x  = min( array($box[0], $box[2], $box[4], $box[6]) ); 
 	$max_x  = max( array($box[0], $box[2], $box[4], $box[6]) ); 
-	$space  = ( $max_x - $min_x ) - 1;
+	$space  = ( $max_x - $min_x );
 	
 	for ( $i = 0; $i < $strlen; $i++ ) 
 	{
