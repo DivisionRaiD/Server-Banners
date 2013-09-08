@@ -250,6 +250,7 @@ function getGameEngine( $var )
 			return "WAW"; // IW3 engine
 			break;
 		
+		case ( "22" ): // Not sure if this is correct
 		case ( "118" ):
 			return "COD2";
 			break;
