@@ -72,13 +72,14 @@ function printimage( $data )
 	$s_left   = imagecreatefrompng( $root . "shadow/left.png" );
 	$s_right  = imagecreatefrompng( $root . "shadow/right.png" );
 	$s_center = imagecreatefrompng( $root . "shadow/center.png" );
+	$border   = $image_width - imagesx( $s_right );
 	
 	// Left and right shadow
 	imagecopyresampled( $imagecontainer, $s_left, 0, 0, 0, 0, imagesx( $s_left ), 100, imagesx( $s_left ), imagesy( $s_left ) );
 	imagecopyresampled( $imagecontainer, $s_right, $image_width - imagesx( $s_right ), 0, 0, 0, imagesx( $s_right ), 100, imagesx( $s_right ), imagesy( $s_right ) );
 	
 	// Middle shadow
-	for ( $x = imagesx( $s_left ); $x < ( $image_width - imagesx( $s_right ) ); $x++ ) {
+	for ( $x = imagesx( $s_left ); $x < $border; $x++ ) {
 		imagecopyresampled( $imagecontainer, $s_center, $x, 0, 0, 0, 1, 100, imagesx( $s_center ), imagesy( $s_center ) );
 	}
 	
@@ -134,11 +135,12 @@ function printimage( $data )
 		$namelength = getStringWidth( $data[ 'hostname' ], $font, $font_size );
 		
 		for ( $i = 0; $i <= $maxlen; $i++ ) {
+			$print = false;
+			
 			if ( $data[ 'unclean' ][ $i ] == "^" && $isCOD ) {
 				$tempcolor = getCODColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer );
 				if ( $tempcolor == "-1" ) {
-					imagettftext( $imagecontainer, $font_size, 0, $length, $yoffset, $color, $font, $data[ 'unclean' ][ $i ] );
-					$length += getStringWidth( $data[ 'unclean' ][ $i ], $font, $font_size );
+					$print = true;
 				}
 				
 				else {
@@ -150,8 +152,7 @@ function printimage( $data )
 			else if ( $data[ 'unclean' ][ $i ] == "&" && $isMC ) {
 				$tempcolor = getMCColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer, $color );
 				if ( $tempcolor == "-1" ) {
-					imagettftext( $imagecontainer, $font_size, 0, $length, $yoffset, $color, $font, $data[ 'unclean' ][ $i ] );
-					$length += getStringWidth( $data[ 'unclean' ][ $i ], $font, $font_size );
+					$print = true;
 				}
 				
 				else {
@@ -160,9 +161,21 @@ function printimage( $data )
 				}
 			}
 			
-			else {
-				imagettftext( $imagecontainer, $font_size, 0, $length, $yoffset, $color, $font, $data[ 'unclean' ][ $i ] );
-				$length += getStringWidth( $data[ 'unclean' ][ $i ], $font, $font_size );
+			else
+				$print = true;
+			
+			if( $print ) {
+				$temp_l = $length + getStringWidth( $data[ 'unclean' ][ $i ], $font, $font_size );
+				
+				if( isSet( $_GET["width"] ) && $temp_l > $border )
+				{
+					break;
+				}
+				else
+				{
+					imagettftext( $imagecontainer, $font_size, 0, $length, $yoffset, $color, $font, $data[ 'unclean' ][ $i ] );
+					$length = $temp_l;
+				}
 			}
 		}
 	}
