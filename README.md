@@ -50,4 +50,4 @@ Go to http://momo5504.square7.de/banner.html to generate a banner.
     BlackPulse for hosting all my stuff <3 ( http://blackpulse.us )
     Jan Odvarko for the color picker on the site ( http://jscolor.com/ )
     MAGIC for (temporarily) hosting the banners
-    Dull @ steamsignatures.com for the pattern, shadow and border
+    Duulis @ steamsignatures.com for the pattern, shadow and border
