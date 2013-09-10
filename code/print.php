@@ -24,8 +24,8 @@ function printimage( $data )
 	global $root, $font, $_game, $f_inf;
 	
 	$font_size = 15;
-	$yoffset = 28;
-	$xoffset = 165;
+	$yoffset   = 28;
+	$xoffset   = 165;
 	
 	setImageWidth( $image_width, $data, $font, $font_size, $xoffset );
 	
@@ -38,13 +38,13 @@ function printimage( $data )
 	
 	imagesavealpha( $imagecontainer, true );
 	
-	$game     = getGameEngine( $data[ 'protocol' ] );
+	$game = getGameEngine( $data[ 'protocol' ] );
 	
 	$map = $data[ 'mapname' ];
 	
 	if ( $data[ 'value' ] != "-1" )
 		$map = getMapName( $data[ 'mapname' ], $game );
-		
+	
 	$gametype = getGametype( $data[ 'gametype' ], $game );
 	$size     = 12;
 	$mappath  = $root . "maps/" . $game . "/preview_" . $data[ 'mapname' ] . ".jpg";
@@ -55,6 +55,44 @@ function printimage( $data )
 	$bg_data = getBGInfo( $imagecontainer, $data, $mappath, $mapimage );
 	
 	imagefill( $imagecontainer, 0, 0, $bg_data );
+	
+	$pattern      = imagecreatefrompng( $root . "pattern.png" );
+	$border_color = Imagecolorallocate( $imagecontainer, 97, 97, 97 );
+	
+	$xv = imagesx( $pattern );
+	$yv = imagesy( $pattern );
+	
+	// Print background pattern
+	for ( $x = 0; $x < ( $image_width / $xv ); $x++ ) {
+		for ( $y = 0; $y < ( $image_height / $yv ); $y++ ) {
+			imagecopyresampled( $imagecontainer, $pattern, $xv * $x, $yv * $y, 0, 0, $xv, $yv, $xv, $yv );
+		}
+	}
+	
+	$s_left   = imagecreatefrompng( $root . "shadow/left.png" );
+	$s_right  = imagecreatefrompng( $root . "shadow/right.png" );
+	$s_center = imagecreatefrompng( $root . "shadow/center.png" );
+	
+	// Left and right shadow
+	imagecopyresampled( $imagecontainer, $s_left, 0, 0, 0, 0, imagesx( $s_left ), 100, imagesx( $s_left ), imagesy( $s_left ) );
+	imagecopyresampled( $imagecontainer, $s_right, $image_width - imagesx( $s_right ), 0, 0, 0, imagesx( $s_right ), 100, imagesx( $s_right ), imagesy( $s_right ) );
+	
+	// Middle shadow
+	for ( $x = imagesx( $s_left ); $x < ( $image_width - imagesx( $s_right ) ); $x++ ) {
+		imagecopyresampled( $imagecontainer, $s_center, $x, 0, 0, 0, 1, 100, imagesx( $s_center ), imagesy( $s_center ) );
+	}
+	
+	// Top and bottom border
+	for ( $x = 0; $x < $image_width; $x++ ) {
+		imagesetpixel( $imagecontainer, $x, 0, $border_color );
+		imagesetpixel( $imagecontainer, $x, $image_height - 1, $border_color );
+	}
+	
+	// Left and right border
+	for ( $y = 0; $y < $image_height; $y++ ) {
+		imagesetpixel( $imagecontainer, 0, $y, $border_color );
+		imagesetpixel( $imagecontainer, $image_width - 1, $y, $border_color );
+	}
 	
 	//Add preview to the container
 	imagecopyresampled( $imagecontainer, $mapimage, 9, 9, 0, 0, 144, 82, imagesx( $mapimage ), imagesy( $mapimage ) );
@@ -95,8 +133,7 @@ function printimage( $data )
 		$isCOD      = ( $_game == "COD" );
 		$namelength = getStringWidth( $data[ 'hostname' ], $font, $font_size );
 		
-		for ( $i = 0; $i <= $maxlen; $i++ ) 
-		{
+		for ( $i = 0; $i <= $maxlen; $i++ ) {
 			if ( $data[ 'unclean' ][ $i ] == "^" && $isCOD ) {
 				$tempcolor = getCODColor( $data[ 'unclean' ][ $i + 1 ], $imagecontainer );
 				if ( $tempcolor == "-1" ) {
@@ -211,19 +248,38 @@ function getStringWidth( $string, $font, $size, $angle = 0 )
 	$strlen = strlen( $string );
 	$dim    = 0;
 	
-	$box    = imagettfbbox( $size, $angle, $font, " " );
-	$min_x  = min( array($box[0], $box[2], $box[4], $box[6]) ); 
-	$max_x  = max( array($box[0], $box[2], $box[4], $box[6]) ); 
-	$space  = ( $max_x - $min_x );
+	$box   = imagettfbbox( $size, $angle, $font, " " );
+	$min_x = min( array(
+		 $box[ 0 ],
+		$box[ 2 ],
+		$box[ 4 ],
+		$box[ 6 ] 
+	) );
+	$max_x = max( array(
+		 $box[ 0 ],
+		$box[ 2 ],
+		$box[ 4 ],
+		$box[ 6 ] 
+	) );
+	$space = ( $max_x - $min_x );
 	
-	for ( $i = 0; $i < $strlen; $i++ ) 
-	{
+	for ( $i = 0; $i < $strlen; $i++ ) {
 		$str = " " . $string[ $i ] . " ";
 		$box = imagettfbbox( $size, $angle, $font, $str );
 		
-		$min_x  = min( array($box[0], $box[2], $box[4], $box[6]) ); 
-		$max_x  = max( array($box[0], $box[2], $box[4], $box[6]) ); 
-		$width  = ( $max_x - $min_x ); 
+		$min_x = min( array(
+			 $box[ 0 ],
+			$box[ 2 ],
+			$box[ 4 ],
+			$box[ 6 ] 
+		) );
+		$max_x = max( array(
+			 $box[ 0 ],
+			$box[ 2 ],
+			$box[ 4 ],
+			$box[ 6 ] 
+		) );
+		$width = ( $max_x - $min_x );
 		
 		$dim += $width - ( $space * 2 );
 	}
