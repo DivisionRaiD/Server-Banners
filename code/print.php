@@ -27,6 +27,8 @@ function printimage( $data )
 	$yoffset   = 28;
 	$xoffset   = 165;
 	
+	$data[ 'server' ] = gethostbyname( substr( $data[ 'server' ], 0, strpos( $data[ 'server' ], ":" ) ) ) . ":" . substr( $data[ 'server' ], strpos( $data[ 'server' ], ":" ) + 1 ); // Resolve hostnames as they are too long
+	
 	setImageWidth( $image_width, $data, $font, $font_size, $xoffset );
 	
 	insertToDatabase( $data, $image_width );

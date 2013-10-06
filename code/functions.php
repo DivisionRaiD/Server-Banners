@@ -33,6 +33,7 @@ function insertToDatabase( $data, $width )
 	$data[ 'color' ]    = $_GET[ "color" ];
 	$data[ 'game' ]     = $game;
 	$data[ 'userip' ]   = $_SERVER[ "REMOTE_ADDR" ];
+	$data[ 'userhost' ] = @gethostbyaddr($_SERVER['REMOTE_ADDR']); // Maybe unnecessary
 	$data[ 'response' ] = "-";
 	$data[ 'fromGen' ]  = isSet( $_GET["gen"] );
 	
